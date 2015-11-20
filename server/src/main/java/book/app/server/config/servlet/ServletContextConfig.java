@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 @Configuration
 @EnableWebMvc
 @ComponentScan("book.app.server.app.controller")
-//@PropertySource(value = "classpath:properties.properties")
+@PropertySource(value = "classpath:properties.properties")
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
     @Autowired

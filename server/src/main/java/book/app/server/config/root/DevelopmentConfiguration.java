@@ -3,8 +3,10 @@ package book.app.server.config.root;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -24,6 +26,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 // @Profile("development")
 @EnableTransactionManagement
 public class DevelopmentConfiguration {
+    
+    @Autowired
+    private Environment env;
+
 
     // @Bean(initMethod = "init")
     // public TestDataInitializer initTestData() {
@@ -35,8 +41,8 @@ public class DevelopmentConfiguration {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/db");
-        dataSource.setUsername("root");
-        dataSource.setPassword("admin");
+        dataSource.setUsername(env.getProperty("database.username"));
+        dataSource.setPassword(env.getProperty("database.password"));
         return dataSource;
     }
 

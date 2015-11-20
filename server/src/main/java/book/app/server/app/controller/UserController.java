@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-public class Main {
+public class UserController {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(path = "/test", method = RequestMethod.GET)
+    @RequestMapping(path = "/addUser", method = RequestMethod.GET)
     public String getPopularBets() {
+        
         return "Hello wordls";
     }
 
