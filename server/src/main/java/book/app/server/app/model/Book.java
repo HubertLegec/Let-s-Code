@@ -26,6 +26,9 @@ public class Book {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
     private Set<Author> authors = new HashSet<Author>();
 
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
+    private Set<Category> categories = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -66,4 +69,11 @@ public class Book {
         this.authors = authors;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 }

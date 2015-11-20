@@ -1,8 +1,6 @@
 package book.app.server.app.model;
 
 import javax.persistence.*;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +21,7 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "token")
     private List<Token> tokens = new LinkedList<>();
+
 
     public User(final String email, final String password) {
         this.email = email;
