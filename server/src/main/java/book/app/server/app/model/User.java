@@ -18,7 +18,7 @@ public class User {
     @Embedded
     private Address address;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="token")
     List<Token> tokens = new ArrayList<>();
 
 
