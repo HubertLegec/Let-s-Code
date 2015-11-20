@@ -1,15 +1,11 @@
 package book.app.server.app.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "USER")
 public class User {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
@@ -17,6 +13,8 @@ public class User {
     private String name;
     private String surname;
     private String password;
+
+    @Embedded
     private Address address;
 
     public String getName() {
@@ -51,4 +49,11 @@ public class User {
         this.address = address;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

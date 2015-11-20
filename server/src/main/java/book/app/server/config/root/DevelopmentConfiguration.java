@@ -1,8 +1,5 @@
 package book.app.server.config.root;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +9,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -34,8 +34,10 @@ public class DevelopmentConfiguration {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/db");
-        dataSource.setUsername(env.getProperty("database.username"));
-        dataSource.setPassword(env.getProperty("database.password"));
+//        dataSource.setUsername(env.getProperty("database.username"));
+//        dataSource.setPassword(env.getProperty("database.password"));
+        dataSource.setUsername("letscode");
+        dataSource.setPassword("letscode");
         return dataSource;
     }
 
@@ -54,6 +56,8 @@ public class DevelopmentConfiguration {
         jpaProperties.put("hibernate.format_sql", "true");
         jpaProperties.put("hibernate.use_sql_comments", "true");
         jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        jpaProperties.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+        jpaProperties.put("hibernate.physical_naming_strategy", "fms.util.hibernate.ImprovedNamingStrategy");
         entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
 
         return entityManagerFactoryBean;
