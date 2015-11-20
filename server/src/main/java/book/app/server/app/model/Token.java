@@ -20,6 +20,10 @@ public class Token {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Token() {
+
+    }
+
     public Token(String userToken, User user) {
         token = userToken;
         this.user = user;

@@ -27,6 +27,7 @@ public class UserService {
                 + new Date();
         String userToken = new BCryptPasswordEncoder().encode(key);
         user.addToken(new Token(userToken, user));
+        userDao.save(user);
         return new String(userToken);
 
     }
