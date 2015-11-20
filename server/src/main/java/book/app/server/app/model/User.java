@@ -10,27 +10,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
     private long id;
-    private String name;
-    private String surname;
+    private String login;
     private String password;
 
     @Embedded
     private Address address;
 
-    public String getName() {
-        return name;
+    public String getLogin() {
+        return login;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
