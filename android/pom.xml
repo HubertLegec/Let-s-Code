@@ -8,5 +8,11 @@
     <artifactId>android</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    
+    <dependencies>
+        <dependency>
+            <groupId>com.loopj.android</groupId>
+            <artifactId>android-async-http</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+    </dependencies>
 </project>
