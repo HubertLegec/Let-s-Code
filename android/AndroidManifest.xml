@@ -16,5 +16,9 @@
         <activity android:name="sii.letscode.activities.MainWindowActivity"/>
         <activity android:name="sii.letscode.activities.CompleteUserDataActivity"/>
         <service android:name="sii.letscode.services.FirstService"/>
+        <provider
+            android:authorities="sii.letscode.contentProviders"
+            android:multiprocess="true"
+            android:name="sii.letscode.contentProviders.DatabaseContentProvider"></provider>
     </application>
 </manifest>
