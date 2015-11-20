@@ -18,7 +18,8 @@ public class Book {
 
     private String title;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User owner;
 
     private Long year;

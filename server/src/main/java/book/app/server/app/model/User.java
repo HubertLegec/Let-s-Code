@@ -1,8 +1,10 @@
 package book.app.server.app.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -13,7 +15,8 @@ public class User {
     @Column(name = "USER_ID")
     private long id;
     private String email;
-
+    @Column(name = "NICK", unique = true)
+    private String nick;
     private String password;
 
     @Embedded
@@ -21,6 +24,9 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "token")
     private List<Token> tokens = new LinkedList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private Set<Book> books = new HashSet<>();
 
     public User() {
 
@@ -75,4 +81,21 @@ public class User {
     public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
     }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
 }
