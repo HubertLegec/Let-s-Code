@@ -7,11 +7,13 @@ import javax.naming.directory.InvalidAttributesException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Repository;
 
 import book.app.server.app.dao.UserDao;
 import book.app.server.app.model.Token;
 import book.app.server.app.model.User;
 
+@Repository
 public class UserService {
 
     @Autowired

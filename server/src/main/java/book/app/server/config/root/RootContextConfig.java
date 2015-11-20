@@ -18,7 +18,7 @@ import javax.persistence.EntityManagerFactory;
  */
 
 @Configuration
-@ComponentScan({})
+@ComponentScan({"book.app.server.app.controller", "book.app.server.app.dao", "book.app.server.app.service"})
 public class RootContextConfig {
 
     @Bean(name = "transactionManager")

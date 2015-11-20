@@ -24,8 +24,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "token")
     private List<Token> tokens = new LinkedList<>();
 
-    public User(final String login, final String password) {
-        this.login = login;
+    public User(final String email, final String password) {
+        this.email = email;
         this.password = password;
         address = new Address();
     }
