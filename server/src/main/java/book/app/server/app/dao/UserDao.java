@@ -8,4 +8,6 @@ public interface UserDao {
 
     public void save(final User user);
 
+    public User getUserByToken(final String token);
+
 }

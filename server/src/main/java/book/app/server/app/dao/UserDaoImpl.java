@@ -13,6 +13,8 @@ public class UserDaoImpl implements UserDao {
 
     private static final String SELECT_USER_BY_LOGIN = "select u from User u where u.login=:login";
 
+    private static final String SELECT_USER_BY_TOKEN = "select t.user from Token t where t.token=:token";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -31,5 +33,16 @@ public class UserDaoImpl implements UserDao {
     public void save(final User user) {
         em.merge(user);
 
+    }
+
+    @Override
+    public User getUserByToken(final String token) {
+        User user = null;
+        try {
+            user = (User) em.createQuery(SELECT_USER_BY_TOKEN).setParameter("token", token).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        return user;
     }
 }
