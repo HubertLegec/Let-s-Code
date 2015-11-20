@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,9 +34,10 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/updateUser", method = RequestMethod.PUT)
-    public void addUser(@RequestBody UserDTO user) {
+    public void addUser(@RequestParam("token") String token, @RequestParam("password") String password,
+            @RequestParam("city") String city, @RequestParam("street") String street, @RequestParam("nr") String nr) {
         try {
-            userService.updateUser(user.getToken(), user.getPassword(), user.getCity(), user.getStreet(), user.getNr());
+            userService.updateUser(token, password, city, street, nr);
         } catch (InvalidAttributesException e) {
             wrongToken();
         }

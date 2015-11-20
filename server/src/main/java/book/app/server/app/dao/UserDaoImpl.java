@@ -11,7 +11,7 @@ import book.app.server.app.model.User;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private static final String SELECT_USER_BY_LOGIN = "select u from User u where u.login=:login";
+    private static final String SELECT_USER_BY_LOGIN = "select u from User u where u.email=:email";
 
     private static final String SELECT_USER_BY_TOKEN = "select t.user from Token t where t.token=:token";
 
@@ -19,10 +19,10 @@ public class UserDaoImpl implements UserDao {
     private EntityManager em;
 
     @Override
-    public User findUserByLogin(final String login) {
+    public User findUserByLogin(final String email) {
         User user = null;
         try {
-            user = (User) em.createQuery(SELECT_USER_BY_LOGIN).setParameter("login", login).getSingleResult();
+            user = (User) em.createQuery(SELECT_USER_BY_LOGIN).setParameter("email", email).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
