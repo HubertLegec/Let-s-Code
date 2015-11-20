@@ -36,10 +36,10 @@ public class DevelopmentConfiguration {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/db");
-//        dataSource.setUsername(env.getProperty("database.username"));
-//        dataSource.setPassword(env.getProperty("database.password"));
-        dataSource.setUsername("letscode");
-        dataSource.setPassword("letscode");
+        dataSource.setUsername(env.getProperty("database.username"));
+        dataSource.setPassword(env.getProperty("database.password"));
+//        dataSource.setUsername("letscode");
+//        dataSource.setPassword("letscode");
         return dataSource;
     }
 
