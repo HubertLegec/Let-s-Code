@@ -25,9 +25,8 @@ public class Author {
     public Author() {
     }
 
-    public Author(final String name, final Book book) {
+    public Author(final String name) {
         this.name = name;
-        books.add(book);
     }
 
     public Long getId() {
