@@ -1,9 +1,10 @@
-package com.example.myapp;
+package sii.letscode.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import com.example.myapp.R;
 
-public class MyActivity extends Activity {
+public class StartActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
