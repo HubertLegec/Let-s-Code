@@ -19,11 +19,11 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-    public String addNewUser(final String login, final String password) {
-        User user = new User(login, password);
-        if (userDao.findUserByLogin(login) != null)
+    public String addNewUser(final String email, final String password) {
+        User user = new User(email, password);
+        if (userDao.findUserByLogin(email) != null)
             return "";
-        String key = UUID.randomUUID().toString().toUpperCase() + "|" + "someImportantProjectToken" + "|" + login + "|"
+        String key = UUID.randomUUID().toString().toUpperCase() + "|" + "someImportantProjectToken" + "|" + email + "|"
                 + new Date();
         String userToken = new BCryptPasswordEncoder().encode(key);
         user.addToken(new Token(userToken, user));
