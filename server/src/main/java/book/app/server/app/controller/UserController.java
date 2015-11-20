@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import book.app.server.app.dto.NewUserDTO;
+import book.app.server.app.dto.UserDTO;
 import book.app.server.app.service.UserService;
 
 @Controller
@@ -32,10 +32,10 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/updateUser", method = RequestMethod.PUT)
-    public void addUser(@RequestParam("token") String token, @RequestParam("password") String password,
-            @RequestParam("city") String city, @RequestParam("street") String street, @RequestParam("nr") String nr) {
+    public void addUser(@RequestBody UserDTO user) {
         try {
-            userService.updateUser(token, password, city, street, nr);
+            userService.updateUser(user.getToken(), user.getPassword(), user.getNick(), user.getCity(),
+                    user.getStreet(), user.getNr());
         } catch (InvalidAttributesException e) {
             wrongToken();
         }
