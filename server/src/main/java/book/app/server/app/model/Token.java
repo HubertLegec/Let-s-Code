@@ -7,6 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity
+@Table(name = "TOKENS")
 public class Token {
 
     @Id
