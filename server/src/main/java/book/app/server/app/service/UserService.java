@@ -32,13 +32,15 @@ public class UserService {
 
     }
 
-    public void updateUser(final String token, final String password, final String city, final String street,
-            final String string) throws InvalidAttributesException {
+    public void updateUser(final String token, final String password, final String nick, final String city,
+            final String street, final String string) throws InvalidAttributesException {
         User user = userDao.getUserByToken(token);
         if (user == null)
             throw new InvalidAttributesException("user with this token is not available");
         if (password != null)
             user.setPassword(password);
+        if (nick != null)
+            user.setNick(nick);
         if (city != null)
             user.getAddress().setCity(city);
         if (street != null)

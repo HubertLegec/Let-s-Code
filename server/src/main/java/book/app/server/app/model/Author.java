@@ -16,14 +16,19 @@ public class Author {
     @GeneratedValue
     private Long id;
 
-    @ManyToMany(cascade= CascadeType.ALL)
-    @JoinTable(name="AUTHOR_BOOK", joinColumns=@JoinColumn(name="AUTHOR_ID"),
-            inverseJoinColumns=@JoinColumn(name="BOOK_ID"))
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "AUTHOR_BOOK", joinColumns = @JoinColumn(name = "AUTHOR_ID"), inverseJoinColumns = @JoinColumn(name = "BOOK_ID"))
     private Set<Book> books = new HashSet<>();
 
-    private String Name;
+    private String name;
 
-    private String Surname;
+    public Author() {
+    }
+
+    public Author(final String name, final Book book) {
+        this.name = name;
+        books.add(book);
+    }
 
     public Long getId() {
         return id;
@@ -42,18 +47,15 @@ public class Author {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
-    public String getSurname() {
-        return Surname;
+    public void addBook(Book book) {
+        books.add(book);
     }
 
-    public void setSurname(String surname) {
-        Surname = surname;
-    }
 }
