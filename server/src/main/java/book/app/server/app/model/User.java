@@ -1,6 +1,8 @@
 package book.app.server.app.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USER")
@@ -15,6 +17,10 @@ public class User {
 
     @Embedded
     private Address address;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    List<Token> tokens = new ArrayList<>();
+
 
     public String getLogin() {
         return login;
