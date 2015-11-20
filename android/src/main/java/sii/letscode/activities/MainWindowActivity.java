@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import com.example.myapp.R;
 
-public class StartActivity extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
+/**
+ * Created by Hubert on 20.11.2015.
+ */
+public class MainWindowActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.start_activity);
+
     }
 }

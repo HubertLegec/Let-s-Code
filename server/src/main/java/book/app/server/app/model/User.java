@@ -1,13 +1,15 @@
 package book.app.server.app.model;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
 @Table(name = "USERS")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
@@ -19,9 +21,14 @@ public class User {
     @Embedded
     private Address address;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="token")
-    List<Token> tokens = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "token")
+    private List<Token> tokens = new LinkedList<>();
 
+    public User(final String login, final String password) {
+        this.login = login;
+        this.password = password;
+        address = new Address();
+    }
 
     public String getEmail() {
         return email;
@@ -53,5 +60,17 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void addToken(Token token) {
+        tokens.add(token);
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
 }
