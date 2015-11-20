@@ -16,8 +16,13 @@ public class Token {
     private String token;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    public Token(String userToken, User user) {
+        token = userToken;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
