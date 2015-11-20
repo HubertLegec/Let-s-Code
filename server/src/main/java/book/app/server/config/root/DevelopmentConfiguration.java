@@ -23,21 +23,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  */
 @Configuration
-// @Profile("development")
 @EnableTransactionManagement
 public class DevelopmentConfiguration {
-    
+
     @Autowired
     private Environment env;
 
-
-    // @Bean(initMethod = "init")
-    // public TestDataInitializer initTestData() {
-    // return new TestDataInitializer();
-    // }
     @Bean(name = "datasource")
     public DriverManagerDataSource dataSource() {
-        // String string;
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/db");
@@ -51,7 +44,7 @@ public class DevelopmentConfiguration {
 
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
-        entityManagerFactoryBean.setPackagesToScan(new String[] { "" });
+        entityManagerFactoryBean.setPackagesToScan(new String[] { "book.app.server.app.model" });
         entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
