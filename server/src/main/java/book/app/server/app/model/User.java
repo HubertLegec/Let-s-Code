@@ -20,7 +20,7 @@ public class User {
     private String password;
 
     @Embedded
-    private Address address;
+    private Address address = new Address();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "token")
     private List<Token> tokens = new LinkedList<>();
@@ -40,7 +40,6 @@ public class User {
     public User(final String email, final String password) {
         this.email = email;
         this.password = password;
-        address = new Address();
     }
 
     public String getEmail() {
