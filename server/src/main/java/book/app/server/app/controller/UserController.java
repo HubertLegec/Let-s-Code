@@ -30,7 +30,7 @@ public class UserController {
     public String addUser(@RequestBody NewUserDTO user) throws InvalidKeyException {
         return userService.addNewUser(user.getEmail(), user.getPassword());
     }
-    
+
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/login", method = RequestMethod.POST)

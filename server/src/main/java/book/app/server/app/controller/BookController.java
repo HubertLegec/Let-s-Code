@@ -32,7 +32,7 @@ public class BookController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/books", method = RequestMethod.GET)
-    public List<UserBook> getBooks(@RequestParam("token") String token) throws InvalidAttributesException {
+    public List<UserBook> getBooks(@RequestParam(name = "token") String token) throws InvalidAttributesException {
         return bookService.getBooksByToken(token);
     }
 

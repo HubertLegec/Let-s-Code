@@ -2,7 +2,7 @@ package book.app.server.app.dto;
 
 public class UserBook {
 
-    private Long bookId;
+    private String bookId;
     private String title;
     private String author;
     private String year;
@@ -10,15 +10,18 @@ public class UserBook {
     public UserBook() {
     }
 
-    public UserBook(Long bookId, String title, String author, String year) {
-
+    public UserBook(String bookId, String title, String author, String year) {
+this.bookId=bookId;
+this.title=title;
+this.author=author;
+this.year=year;
     }
 
-    public Long getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(Long bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 
