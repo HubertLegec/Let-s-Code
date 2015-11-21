@@ -6,10 +6,12 @@ import book.app.server.app.dao.UserDao;
 import book.app.server.app.dto.BookToLendDTO;
 import book.app.server.app.dto.UserBook;
 import book.app.server.app.model.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.naming.directory.InvalidAttributesException;
+
 import java.util.*;
 
 @Repository
@@ -71,7 +73,8 @@ public class BookService {
         List<Book> books = bookDao.findBooks(query);
         for (Book book : books) {
             book.setAuthors(bookDao.findAuthorsByBookId(book.getId()));
-            if (book.getOwner() != null && !book.getOwner().equals(user)) {
+            List<Request> requests = bookDao.getLentRequestByBookId(book.getId());
+            if (book.getOwner() != null && !book.getOwner().equals(user) && isAvailable(requests)) {
                 result.add(new BookToLendDTO(book.getId(), book.getTitle(), prepareAuthors(book.getAuthors()), book
                         .getOwner().getNick(), book.getOwner().getAddress().getCity(), book.getOwner().getAddress()
                         .getStreet()));
@@ -79,6 +82,14 @@ public class BookService {
 
         }
         return result;
+    }
+
+    private boolean isAvailable(List<Request> requests) {
+        for (Request request : requests) {
+            if (request.getStatus().equals(RequestStatus.ACCEPTED))
+                return false;
+        }
+        return true;
     }
 
     private String prepareAuthors(final Set<Author> authors) {
@@ -128,20 +139,15 @@ public class BookService {
         // TODO rewrite this shit!
         if (action.equals("OK")) {
             updateRequest(requestId, RequestStatus.INACTIVE);
-        }
-        else if (action.equals("ACCEPT")) {
+        } else if (action.equals("ACCEPT")) {
             updateRequest(requestId, RequestStatus.ACCEPTED);
-        }
-        else if (action.equals("REJECT")) {
+        } else if (action.equals("REJECT")) {
             updateRequest(requestId, RequestStatus.REJECTED);
-        }
-        else if (action.equals("CANCEL")) {
+        } else if (action.equals("CANCEL")) {
             updateRequest(requestId, RequestStatus.INACTIVE);
-        }
-        else {
+        } else {
             throw new IllegalArgumentException();
         }
-
 
     }
 }

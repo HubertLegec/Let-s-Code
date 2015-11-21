@@ -65,29 +65,34 @@ public class BookController {
         bookService.addNewRequest(requestBookDTO.getToken(), requestBookDTO.getBookId());
     }
 
-//    @ResponseBody
-//    @ResponseStatus(HttpStatus.OK)
-//    @RequestMapping(path = "/updateRequest", method = RequestMethod.POST)
-//    private void addRequest(@RequestBody UpdateRequestDTO requestBookDTO) throws InvalidKeyException,
-//            InvalidAttributesException {
-//        bookService.updateRequest(requestBookDTO.getRequestId(), requestBookDTO.getStatus());
-//    }
-//
-//    @ResponseBody
-//    @ResponseStatus(HttpStatus.OK)
-//    @RequestMapping(path = "/updateRequestStatus", method = RequestMethod.POST)
-//    public void updateRequestStatus(@RequestBody UpdateRequestStatusDTO updateRequestStatusDTO) throws InvalidKeyException,
-//            InvalidAttributesException {
-//        bookService.updateRequest(requestBookDTO.getRequestId(), requestBookDTO.getStatus());
-//    }
-
+    // @ResponseBody
+    // @ResponseStatus(HttpStatus.OK)
+    // @RequestMapping(path = "/updateRequest", method = RequestMethod.POST)
+    // private void addRequest(@RequestBody UpdateRequestDTO requestBookDTO)
+    // throws InvalidKeyException,
+    // InvalidAttributesException {
+    // bookService.updateRequest(requestBookDTO.getRequestId(),
+    // requestBookDTO.getStatus());
+    // }
+    //
+    // @ResponseBody
+    // @ResponseStatus(HttpStatus.OK)
+    // @RequestMapping(path = "/updateRequestStatus", method =
+    // RequestMethod.POST)
+    // public void updateRequestStatus(@RequestBody UpdateRequestStatusDTO
+    // updateRequestStatusDTO) throws InvalidKeyException,
+    // InvalidAttributesException {
+    // bookService.updateRequest(requestBookDTO.getRequestId(),
+    // requestBookDTO.getStatus());
+    // }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/requestAction", method = RequestMethod.POST)
-    public void updateRequestStatus(@RequestBody UpdateRequestStatusDTO updateRequestStatusDTO) throws InvalidKeyException,
-            InvalidAttributesException {
-        bookService.applyRequestAction(updateRequestStatusDTO.getToken(), updateRequestStatusDTO.getRequestId(), updateRequestStatusDTO.getAction());
+    public void updateRequestStatus(@RequestBody UpdateRequestStatusDTO updateRequestStatusDTO)
+            throws InvalidKeyException, InvalidAttributesException {
+        bookService.applyRequestAction(updateRequestStatusDTO.getToken(), updateRequestStatusDTO.getRequestId(),
+                updateRequestStatusDTO.getAction());
     }
 
 }

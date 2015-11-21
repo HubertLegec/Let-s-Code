@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
+import book.app.server.app.model.Request;
 import book.app.server.app.model.User;
 
 @Repository
@@ -26,6 +27,7 @@ public class BookDaoImpl implements BookDao {
 
     private static final String FIND_AUTHORS_BY_BOOK_ID = "select b.authors from Book b where b.id = :bookId";
 
+    private static final String FIND_REQUESTS_BY_BOOK_ID = "select b.requests from Book b where b.id = :bookId";
     @PersistenceContext
     private EntityManager em;
 
@@ -83,4 +85,11 @@ public class BookDaoImpl implements BookDao {
                 .getResultList());
 
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Request> getLentRequestByBookId(final Long bookId) {
+        return (List<Request>) em.createQuery(FIND_REQUESTS_BY_BOOK_ID).setParameter("bookId", bookId).getResultList();
+    }
+
 }

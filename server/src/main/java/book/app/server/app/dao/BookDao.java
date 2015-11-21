@@ -2,6 +2,7 @@ package book.app.server.app.dao;
 
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
+import book.app.server.app.model.Request;
 import book.app.server.app.model.User;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface BookDao {
     public void remove(final Book book);
 
     public Set<Author> findAuthorsByBookId(final Long id);
+
+    public List<Request> getLentRequestByBookId(final Long id);
 
 }
