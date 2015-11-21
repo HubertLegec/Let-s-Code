@@ -44,6 +44,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    @Transactional
     public void saveAuthor(final Author author) {
         em.merge(author);
 
