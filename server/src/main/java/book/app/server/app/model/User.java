@@ -28,8 +28,13 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Book> books = new HashSet<>();
 
-    public User() {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Rating> obtainedRatings = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rated_by")
+    private Set<Rating> givenRatings = new HashSet<>();
+
+    public User() {
     }
 
     public User(final String email, final String password) {
