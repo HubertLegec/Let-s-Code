@@ -7,13 +7,13 @@ public class BookOwnerListViewModel {
     public String title;
     private String author;
     private String year;
-    private long id;
+    private String id;
 
     public BookOwnerListViewModel() {
 
     }
 
-    public BookOwnerListViewModel(String title, String author, String year, int id) {
+    public BookOwnerListViewModel(String title, String author, String year, String id) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -44,11 +44,11 @@ public class BookOwnerListViewModel {
         this.year = year;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

@@ -161,7 +161,7 @@ public class MainWindowActivity extends Activity {
                         bookListViewModel.setTitle(jsonObject.getString("title"));
                         bookListViewModel.setNick(jsonObject.getString("nick"));
                         bookListViewModel.setStreet(jsonObject.getString("city") + jsonObject.getString("street"));
-                        bookListViewModel.setId(jsonObject.getInt("bookId"));
+                        bookListViewModel.setId(jsonObject.getString("bookId"));
                         bookList.add(bookListViewModel);
                     }
                     bookListAdapter.notifyDataSetChanged();
@@ -190,6 +190,7 @@ public class MainWindowActivity extends Activity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
+                    Log.e(this.getClass().getName(), new String(responseBody));
                     JSONArray jsonArray = new JSONArray(new String(responseBody));
                     //tytuł autor nick ulica miasto
                     for (int i = 0; i < jsonArray.length(); ++i) {
@@ -198,7 +199,7 @@ public class MainWindowActivity extends Activity {
                         bookListViewModel.setAuthor(jsonObject.getString("author"));
                         bookListViewModel.setTitle(jsonObject.getString("title"));
                         bookListViewModel.setYear(jsonObject.getString("year"));
-                        bookListViewModel.setId(jsonObject.getLong("bookId"));
+                        bookListViewModel.setId(jsonObject.getString("bookId"));
                         bookOwnerList.add(bookListViewModel);
                     }
                     bookListAdapter.notifyDataSetChanged();

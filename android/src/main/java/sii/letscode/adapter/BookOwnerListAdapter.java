@@ -85,7 +85,7 @@ public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
         ImageButton bOwnerRemove;
     }
 
-    public void getOwnBooks(long bookId) {
+    public void getOwnBooks(String bookId) {
         String SERVER_ADDRESS = "http://10.0.2.2:8080";
         String BOOKS = "/remove";
         String TOKEN = "token";
@@ -94,7 +94,7 @@ public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.add(TOKEN, getToken());
-        params.add(BOOK_ID, Long.toString(bookId));
+        params.add(BOOK_ID, bookId);
 
         client.get(SERVER_ADDRESS + BOOKS, params, new AsyncHttpResponseHandler() {
             @Override

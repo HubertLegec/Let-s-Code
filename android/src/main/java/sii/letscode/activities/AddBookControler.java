@@ -1,9 +1,12 @@
 package sii.letscode.activities;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
@@ -46,11 +49,24 @@ public class AddBookControler {
         client.post(mwa.getApplicationContext(), SERVER_ADDRESS + ADD_BOOK, entity, "application/json", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                Context context = mwa.getApplicationContext();
+                CharSequence text = "Dodano książkę";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
                 Log.d("POST", "OK");
             }
 
             @Override
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                Context context = mwa.getApplicationContext();
+                CharSequence text = "Wystąpił błąd";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
                 String info = new String(bytes);
                 Log.e("ADDBOOKERROR", "no i dupa " + i + " " + info);
             }
