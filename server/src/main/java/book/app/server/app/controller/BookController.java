@@ -1,23 +1,15 @@
 package book.app.server.app.controller;
 
-import java.util.List;
-
-import javax.naming.directory.InvalidAttributesException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 import book.app.server.app.dto.BookDTO;
 import book.app.server.app.model.Book;
 import book.app.server.app.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.naming.directory.InvalidAttributesException;
+import java.util.List;
 
 @Controller
 public class BookController {
@@ -30,6 +22,13 @@ public class BookController {
     @RequestMapping(path = "/books", method = RequestMethod.GET)
     public List<Book> getBooks(@RequestParam("token") String token) throws InvalidAttributesException {
         return bookService.getBooksByToken(token);
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/searchBooks", method = RequestMethod.GET)
+    public List<Book> searchBooks(@RequestParam("query") String query) throws InvalidAttributesException {
+        return bookService.getBooks(query);
     }
 
     @ResponseBody

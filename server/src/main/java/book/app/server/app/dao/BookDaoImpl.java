@@ -19,7 +19,7 @@ public class BookDaoImpl implements BookDao {
 
     private static final String FIND_BOOKS_BY_OWNER = "select b from Book b where b.owner=:owner";
 
-    private static final String FIND_BOOKS = "select b from Book b where (b.authors like %:author%) or (b.title like %:title%)";
+    private static final String FIND_BOOKS = "select b from Book b where lower(b.title) like '%pan tadeus%'";
 
     @PersistenceContext
     private EntityManager em;
@@ -48,7 +48,8 @@ public class BookDaoImpl implements BookDao {
         return (List<Book>) em.createQuery(FIND_BOOKS_BY_OWNER).setParameter("owner", user).getResultList();
     }
 
-    public List<Book> findBooks(String query) {
-        return (List<Book>) em.createQuery(FIND_BOOKS).setParameter("author", query).setParameter("title", query).getResultList();
+    @Override
+    public List<Book> findBooks(final String query) {
+        return (List<Book>) em.createQuery(FIND_BOOKS).getResultList();
     }
 }

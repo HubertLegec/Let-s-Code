@@ -1,10 +1,10 @@
 package book.app.server.app.dao;
 
-import java.util.List;
-
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
 import book.app.server.app.model.User;
+
+import java.util.List;
 
 public interface BookDao {
 
@@ -15,5 +15,8 @@ public interface BookDao {
     public void saveAuthor(final Author author);
 
     public List<Book> findBooksByOwner(final User user);
+
+
+    public List<Book> findBooks(final String query);
 
 }

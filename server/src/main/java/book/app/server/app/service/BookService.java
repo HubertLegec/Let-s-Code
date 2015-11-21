@@ -1,19 +1,17 @@
 package book.app.server.app.service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.naming.directory.InvalidAttributesException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import book.app.server.app.dao.BookDao;
 import book.app.server.app.dao.UserDao;
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
 import book.app.server.app.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.naming.directory.InvalidAttributesException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Repository
 public class BookService {
@@ -52,8 +50,7 @@ public class BookService {
 
     }
 
-    public List<Book> getBooks(final String text) {
-        // return bookDao.findBooksByOwner(text);
-        return null;
+    public List<Book> getBooks(final String query) {
+        return bookDao.findBooks(query);
     }
 }
