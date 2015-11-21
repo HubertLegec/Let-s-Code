@@ -34,6 +34,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rated_by")
     private Set<Rating> givenRatings = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
+    private Set<Request> sentRequest = new HashSet<>();
+
     public User() {
     }
 

@@ -1,7 +1,6 @@
 package book.app.server.app.model;
 
 import javax.persistence.*;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +30,9 @@ public class Book {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "book")
+    private Set<Request> requests = new HashSet<>();
 
     public Book() {
 
