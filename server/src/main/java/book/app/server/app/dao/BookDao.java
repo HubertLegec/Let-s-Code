@@ -5,6 +5,7 @@ import book.app.server.app.model.Book;
 import book.app.server.app.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface BookDao {
 
@@ -16,9 +17,12 @@ public interface BookDao {
 
     public List<Book> findBooksByOwner(final User user);
 
-
     public List<Book> findBooks(final String query);
 
     public Book findBookById(final Long bookId);
+
+    public void remove(final Book book);
+
+    public Set<Author> findAuthorsByBookId(final Long id);
 
 }

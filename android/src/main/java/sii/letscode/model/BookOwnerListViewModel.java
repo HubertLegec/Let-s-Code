@@ -1,27 +1,22 @@
 package sii.letscode.model;
 
-import android.content.Context;
-import android.widget.LinearLayout;
-
 /**
  * Created by dominik on 21.11.15.
  */
-public class BookListViewModel {
+public class BookOwnerListViewModel {
     public String title;
     private String author;
-    private String nick;
-    private String street;
+    private String year;
     private long id;
 
-    public BookListViewModel() {
+    public BookOwnerListViewModel() {
 
     }
 
-    public BookListViewModel(String title, String author, String nick, String street, int id) {
+    public BookOwnerListViewModel(String title, String author, String year, int id) {
         this.title = title;
         this.author = author;
-        this.nick = nick;
-        this.street = street;
+        this.year = year;
         this.id = id;
     }
 
@@ -41,20 +36,12 @@ public class BookListViewModel {
         this.author = author;
     }
 
-    public String getNick() {
-        return nick;
+    public String getYear() {
+        return year;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public long getId() {

@@ -1,18 +1,27 @@
 package book.app.server.app.controller;
 
+import java.util.List;
+
+import javax.naming.directory.InvalidAttributesException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import book.app.server.app.dto.BookDTO;
 import book.app.server.app.dto.BookToLendDTO;
 import book.app.server.app.dto.RemoveBookDTO;
 import book.app.server.app.dto.UserBook;
 import book.app.server.app.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
-import javax.naming.directory.InvalidAttributesException;
 import java.security.InvalidKeyException;
-import java.util.List;
 
 @Controller
 public class BookController {
@@ -41,18 +50,6 @@ public class BookController {
             throws InvalidAttributesException {
         return bookService.getBooks(token, query);
     }
-
-    // @ResponseBody
-    // @ResponseStatus(HttpStatus.OK)
-    // @RequestMapping(path = "/test", method = RequestMethod.GET)
-    // public BookDTO test() throws InvalidAttributesException {
-    // BookDTO book = new BookDTO();
-    // authors.add("authro");
-    // book.setTitle("asd");
-    // book.setToken("asd");
-    // book.setYear("2343");
-    // return book;
-    // }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
