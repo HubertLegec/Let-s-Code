@@ -71,8 +71,9 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    @Transactional
     public void remove(final Book book) {
-        em.remove(book);
+        em.remove(em.contains(book) ? book : em.merge(book));
     }
 
     @SuppressWarnings("unchecked")
