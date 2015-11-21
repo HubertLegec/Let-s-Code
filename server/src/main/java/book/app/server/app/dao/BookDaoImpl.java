@@ -3,6 +3,7 @@ package book.app.server.app.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
@@ -26,7 +27,13 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Author findAuthorByName(final String authorName) {
-        return (Author) em.createQuery(FIND_AUTHOR_BY_NAME).setParameter("name", authorName).getSingleResult();
+        Author author;
+        try {
+            author = (Author) em.createQuery(FIND_AUTHOR_BY_NAME).setParameter("name", authorName).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        return author;
     }
 
     @Override
@@ -52,5 +59,10 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> findBooks(final String query) {
         return (List<Book>) em.createQuery(FIND_BOOKS).setParameter("title", "%" + query + "%").getResultList();
+    }
+
+    @Override
+    public Book findBookById(Long bookId) {
+        return em.find(Book.class, bookId);
     }
 }
