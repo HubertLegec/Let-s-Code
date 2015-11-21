@@ -1,25 +1,19 @@
 package book.app.server.app.service;
 
 import book.app.server.app.dao.BookDao;
+import book.app.server.app.dao.RequestDao;
 import book.app.server.app.dao.UserDao;
 import book.app.server.app.dto.BookToLendDTO;
 import book.app.server.app.dto.UserBook;
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
-import book.app.server.app.model.Token;
+import book.app.server.app.model.Request;
 import book.app.server.app.model.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.naming.directory.InvalidAttributesException;
-
-import java.security.acl.Owner;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class BookService {
@@ -28,6 +22,9 @@ public class BookService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RequestDao requestDao;
 
     public void addBook(final String token, final String authors, final String title, final String year)
             throws InvalidAttributesException {
@@ -107,5 +104,15 @@ public class BookService {
         user.setBooks(new HashSet(bookDao.findBooksByOwner(owner)));
         user.removeBook(bookId);
         userDao.save(user);
+    }
+
+    public void addNewRequest(final String token, final Long bookId) throws InvalidAttributesException {
+        Book book = bookDao.findBookById(bookId);
+        User sender = userDao.getUserByToken(token);
+        if (sender == null)
+            throw new InvalidAttributesException();
+        Request request = new Request(sender, book);
+        requestDao.save(request);
+
     }
 }

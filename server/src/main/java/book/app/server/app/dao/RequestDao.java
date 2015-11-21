@@ -9,6 +9,10 @@ import java.util.List;
  * Created by krzysiek on 21.11.15.
  */
 public interface RequestDao {
+
     public List<Request> findBySender(User sender);
+
     public List<Request> findByReceiver(User receiver);
+
+    public void save(Request request);
 }
