@@ -1,32 +1,28 @@
-package book.app.server.app.dto;
+package sii.letscode.model;
 
-public class BookToLendDTO {
+import android.content.Context;
+import android.widget.LinearLayout;
 
-    private Long bookId;
-    private String title;
+/**
+ * Created by dominik on 21.11.15.
+ */
+public class BookListViewModel {
+    public String title;
     private String author;
     private String nick;
-    private String city;
     private String street;
+    private int id;
 
-    public BookToLendDTO() {
+    public BookListViewModel() {
+
     }
 
-    public BookToLendDTO(Long bookId, String title, String author, String nick, String city, String street) {
-        this.bookId = bookId;
+    public BookListViewModel(String title, String author, String nick, String street, int id) {
         this.title = title;
         this.author = author;
         this.nick = nick;
-        this.city = city;
         this.street = street;
-    }
-
-    public Long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+        this.id = id;
     }
 
     public String getTitle() {
@@ -53,14 +49,6 @@ public class BookToLendDTO {
         this.nick = nick;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getStreet() {
         return street;
     }
@@ -69,4 +57,11 @@ public class BookToLendDTO {
         this.street = street;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
