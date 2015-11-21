@@ -2,14 +2,14 @@ package book.app.server.app.dto;
 
 public class RemoveBookDTO {
 
-    private Long bookId;
+    private String bookId;
     private String token;
 
-    public Long getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(Long bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 

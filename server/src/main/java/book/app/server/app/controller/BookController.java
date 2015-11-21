@@ -2,12 +2,14 @@ package book.app.server.app.controller;
 
 import book.app.server.app.dto.*;
 import book.app.server.app.service.BookService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.directory.InvalidAttributesException;
+
 import java.security.InvalidKeyException;
 import java.util.List;
 
@@ -56,7 +58,17 @@ public class BookController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/addRequest", method = RequestMethod.POST)
-    public void addRequest(@RequestBody RequestBookDTO requestBookDTO) throws InvalidKeyException, InvalidAttributesException {
+    public void addRequest(@RequestBody RequestBookDTO requestBookDTO) throws InvalidKeyException,
+            InvalidAttributesException {
         bookService.addNewRequest(requestBookDTO.getToken(), requestBookDTO.getBookId());
     }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/updateRequest", method = RequestMethod.POST)
+    public void addRequest(@RequestBody UpdateRequestDTO requestBookDTO) throws InvalidKeyException,
+            InvalidAttributesException {
+        bookService.addNewRequest(requestBookDTO.getToken(), requestBookDTO.getBookId());
+    }
+
 }
