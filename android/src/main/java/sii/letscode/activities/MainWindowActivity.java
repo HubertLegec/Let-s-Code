@@ -92,7 +92,7 @@ public class MainWindowActivity extends Activity {
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("ADD book" , "click");
+                Log.d("ADD book", "click");
                 addBookControler.addBook(titleTF.getText().toString(), authorList, publicationDate.getText().toString());
                 titleTF.setText("");
                 if(authorList.size() == 1){
@@ -103,6 +103,7 @@ public class MainWindowActivity extends Activity {
                 publicationDate.setText("");
             }
         });
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getBooks(searchTF.getText().toString());
@@ -111,7 +112,8 @@ public class MainWindowActivity extends Activity {
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setContentView(R.layout.main_window_profile);
+                //setContentView(R.layout.main_window_profile);
+                vf.setDisplayedChild(2);
 
                 bookOwnerListView = (ListView) findViewById(R.id.bookOwnerListView);
                 bookOwnerList = new ArrayList<BookOwnerListViewModel>();

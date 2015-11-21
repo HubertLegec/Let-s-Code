@@ -43,6 +43,7 @@
 
         <include android:id="@+id/find" layout="@layout/main_window_find" />
         <include android:id="@+id/add" layout="@layout/main_window_add" />
+        <include android:id="@+id/profile" layout="@layout/main_window_profile" />
 
     </ViewFlipper>
 </LinearLayout>
