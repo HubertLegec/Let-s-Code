@@ -2,6 +2,7 @@ package book.app.server.app.service;
 
 import java.security.InvalidKeyException;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.naming.directory.InvalidAttributesException;
@@ -66,6 +67,8 @@ public class UserService {
             throw new InvalidKeyException("email is wrong");
         else if (!new BCryptPasswordEncoder().matches(password, user.getPassword()))
             throw new InvalidKeyException("password is wrong");
+        List<Token> tokens = userDao.findTokensByUserId(user.getId());
+        user.setTokens(tokens);
         String token = prepareToken(email);
         user.addToken(new Token(token, user));
         userDao.save(user);
