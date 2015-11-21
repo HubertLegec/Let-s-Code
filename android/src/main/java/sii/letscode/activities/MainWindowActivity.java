@@ -1,56 +1,64 @@
 package sii.letscode.activities;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.*;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
-import cz.msebera.android.httpclient.message.BasicHeader;
 import sii.letscode.adapter.BookListAdapter;
 import sii.letscode.model.BookListViewModel;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Hubert on 20.11.2015.
  */
 public class MainWindowActivity extends Activity {
-    ImageButton findButton;
-    ImageButton addButton;
-    ImageButton profileButton;
-    ImageButton settingsButton;
+    private ImageButton findButton;
+    private ImageButton addButton;
+    private ImageButton profileButton;
+    private ImageButton settingsButton;
+    private AddBookControler addBookControler;
+    //add book
+
+    private EditText titleTF;
+    private List<EditText> authorList= new LinkedList<EditText>();
+    private EditText publicationDate;
+    private Button addBookButton;
+    private ImageButton addAuthorButton;
+
     EditText searchTF;
     Button searchButton;
     ListView bookListView;
     BookListAdapter bookListAdapter;
     ArrayList<BookListViewModel> bookList;
+    ViewFlipper vf;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_window_find);
+        setContentView(R.layout.main_window);
+        vf = (ViewFlipper)findViewById(R.id.vf);
+        vf.setDisplayedChild(0);
         findButton = (ImageButton) findViewById(R.id.findButton);
         addButton = (ImageButton) findViewById(R.id.addButton);
+        profileButton = (ImageButton) findViewById(R.id.profileButton);
+        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         searchTF = (EditText) findViewById(R.id.searchTF);
         searchButton = (Button) findViewById(R.id.searchButton);
         bookListView = (ListView) findViewById(R.id.bookListView);
@@ -60,10 +68,35 @@ public class MainWindowActivity extends Activity {
 
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setContentView(R.layout.main_window_find);
+                goToAddBook();
             }
         });
 
+    }
+
+    public void goToAddBook(){
+        //setContentView(R.layout.main_window_add);
+        vf.setDisplayedChild(1);
+        titleTF = (EditText) findViewById(R.id.bookTitleTF);
+        authorList.add((EditText) findViewById(R.id.bookAuthorTF));
+        publicationDate = (EditText) findViewById(R.id.publicationDateTF);
+        addBookButton = (Button) findViewById(R.id.addBookButton);
+        addAuthorButton = (ImageButton) findViewById(R.id.addAuthorButton);
+        addBookControler = new AddBookControler(this);
+
+        addBookButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("ADD book" , "click");
+                addBookControler.addBook(titleTF.getText().toString(), authorList, publicationDate.getText().toString());
+                titleTF.setText("");
+                if(authorList.size() == 1){
+                    authorList.get(0).setText("");
+                }else{
+
+                }
+                publicationDate.setText("");
+            }
+        });
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getBooks(searchTF.getText().toString());

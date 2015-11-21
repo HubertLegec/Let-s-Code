@@ -4,39 +4,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:id="@+id/main_layout">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/findButton" android:src="@drawable/find_icon"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"
-               />
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/addButton"
-                android:src="@drawable/add_icon"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"/>
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/profileButton"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true" android:src="@drawable/profile_icon"/>
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/settingsButton"
-                android:src="@drawable/settings_icon"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"/>
-    </LinearLayout>
-
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

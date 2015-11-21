@@ -3,43 +3,10 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:id="@+id/main_layout">
-
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/findButton" android:src="@drawable/find_icon"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"
-        />
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/addButton"
-                android:src="@drawable/add_icon"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"/>
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/profileButton"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true" android:src="@drawable/profile_icon"/>
-        <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/settingsButton"
-                android:src="@drawable/settings_icon"
-                android:scaleType="centerInside"
-                android:adjustViewBounds="true"/>
-    </LinearLayout>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" android:id="@+id/addBookMainLayout">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,10 +29,21 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Autor:"
                 android:id="@+id/bookAuthorTV"/>
-        <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/bookAuthorTF"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:weightSum="1" android:id="@+id/lastAuthor">
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bookAuthorTF" android:layout_weight="0.96"/>
+            <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/addAuthorButton" android:src="@drawable/add_book_icon"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"/>
+        </LinearLayout>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
