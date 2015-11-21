@@ -48,6 +48,6 @@ public class RequestDaoImpl implements RequestDao {
 
     @Override
     public Request findById(final String requestId) {
-        return em.find(Request.class, requestId);
+        return em.find(Request.class, Long.valueOf(requestId));
     }
 }
