@@ -1,6 +1,7 @@
 package book.app.server.app.dao;
 
 import book.app.server.app.model.Request;
+import book.app.server.app.model.RequestStatus;
 import book.app.server.app.model.User;
 
 import javax.persistence.EntityManager;
@@ -13,8 +14,10 @@ import java.util.Set;
  */
 public class RequestDaoImpl implements RequestDao{
 
-    private static final String FIND_REQUEST_BY_SENDER = "select r from Request r where r.sender = :sender";
-    private static final String FIND_REQUEST_BY_RECEIVER = "select r from Request r where r.sender = :sender";
+    private static final String FIND_REQUEST_BY_SENDER = "select r from Request r where r.sender = :sender " +
+            "and (r.status = ACCEPTED or r.status = REJECTED)";
+    private static final String FIND_REQUEST_BY_RECEIVER = "select r from Request r where r.book.owner = :receiver " +
+            "and (r.status = ACTIVE or r.status = ACCEPTED)";
 
     @PersistenceContext
     private EntityManager em;
@@ -26,6 +29,6 @@ public class RequestDaoImpl implements RequestDao{
 
     @Override
     public List<Request> findByReceiver(User receiver) {
-        return null;
+        return (List<Request>) em.createQuery(FIND_REQUEST_BY_RECEIVER).setParameter("receiver", receiver).getResultList();
     }
 }
