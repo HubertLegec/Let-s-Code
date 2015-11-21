@@ -1,6 +1,7 @@
 package book.app.server.app.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,6 +23,8 @@ public class BookDaoImpl implements BookDao {
 
     private static final String FIND_BOOKS = "select b from Book b where lower(b.title) like :title";
 
+    private static final String FIND_AUTHORS_BY_BOOK_ID = "select b.authors from Book b where b.id = :bookId";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -40,7 +43,6 @@ public class BookDaoImpl implements BookDao {
     @Transactional
     public void save(final Book book) {
         em.merge(book);
-
     }
 
     @Override
@@ -63,7 +65,19 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book findBookById(Long bookId) {
+    public Book findBookById(final Long bookId) {
         return em.find(Book.class, bookId);
+    }
+
+    @Override
+    public void remove(final Book book) {
+        em.remove(book);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<Author> findAuthorsByBookId(final Long bookId) {
+        return (Set<Author>) em.createQuery(FIND_AUTHORS_BY_BOOK_ID).setParameter("bookId", bookId).getResultList();
+        
     }
 }

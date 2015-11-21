@@ -109,6 +109,7 @@ public class User {
         for (Book book : books) {
             if (book.getId().equals(bookId)) {
                 books.remove(book);
+                System.out.println(bookId);
                 return;
             }
         }
