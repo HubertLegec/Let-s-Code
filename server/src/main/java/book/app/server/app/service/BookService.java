@@ -51,4 +51,9 @@ public class BookService {
         return bookDao.findBooksByOwner(user);
 
     }
+
+    public List<Book> getBooks(final String text) {
+        // return bookDao.findBooksByOwner(text);
+        return null;
+    }
 }
