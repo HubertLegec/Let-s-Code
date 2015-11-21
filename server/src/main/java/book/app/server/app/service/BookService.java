@@ -127,7 +127,7 @@ public class BookService {
 
     public void applyRequestAction(final String token, final String requestId, final String action) {
         // TODO rewrite this shit!
- t        if (action.equals("OK")) {
+        if (action.equals("OK")) {
             updateRequest(requestId, RequestStatus.INACTIVE);
         }
         else if (action.equals("ACCEPT")) {
