@@ -1,7 +1,10 @@
 package book.app.server.app.service;
 
+import book.app.server.app.dao.RequestDao;
 import book.app.server.app.dao.UserDao;
+import book.app.server.app.dto.RequestDTO;
 import book.app.server.app.model.Address;
+import book.app.server.app.model.Request;
 import book.app.server.app.model.Token;
 import book.app.server.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import javax.naming.directory.InvalidAttributesException;
 import java.security.InvalidKeyException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +23,9 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RequestDao requestDao;
 
     public String addNewUser(final String email, final String password) throws InvalidKeyException {
         User user = new User(email, new BCryptPasswordEncoder().encode(password));
@@ -74,5 +81,20 @@ public class UserService {
 
     }
 
-
+    public List<RequestDTO> getSentRequests(String token) throws InvalidAttributesException {
+        User sender = userDao.getUserByToken(token);
+        if (sender == null)
+            throw new InvalidAttributesException();
+        List<Request> requestList = requestDao.findBySender(sender);
+        List<RequestDTO> requestDTOList = new LinkedList<>();
+        for (Request request: requestList) {
+            RequestDTO requestDTO = new RequestDTO();
+            requestDTO.setId(request.getId().toString());
+            requestDTO.setBook(request.getBook().getId().toString());
+            requestDTO.setSender(Long.toString(request.getSender().getId()));
+            requestDTO.setStatus(request.getStatus().name());
+            requestDTOList.add(requestDTO);
+        }
+        return requestDTOList;
+    }
 }
