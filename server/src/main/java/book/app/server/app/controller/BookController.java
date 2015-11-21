@@ -68,7 +68,7 @@ public class BookController {
     @RequestMapping(path = "/updateRequest", method = RequestMethod.POST)
     public void addRequest(@RequestBody UpdateRequestDTO requestBookDTO) throws InvalidKeyException,
             InvalidAttributesException {
-//        bookService.addNewRequest(requestBookDTO.getToken(), requestBookDTO.getBookId());
+        bookService.updateRequest(requestBookDTO.getRequestId(), requestBookDTO.getStatus());
     }
 
 }

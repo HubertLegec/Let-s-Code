@@ -39,7 +39,7 @@ public class MainWindowActivity extends Activity {
     //add book
 
     private EditText titleTF;
-    private List<EditText> authorList= new LinkedList<EditText>();
+    private EditText author;
     private EditText publicationDate;
     private Button addBookButton;
     private ImageButton addAuthorButton;
@@ -51,6 +51,7 @@ public class MainWindowActivity extends Activity {
     BookListAdapter bookListAdapter;
     ArrayList<BookListViewModel> bookList;
     ViewFlipper vf;
+    ViewFlipper notificationsVf;
 
     ListView bookOwnerListView;
     BookOwnerListAdapter bookOwnerListAdapter;
@@ -96,14 +97,16 @@ public class MainWindowActivity extends Activity {
     public void goToNotifications(){
         vf.setDisplayedChild(3);
         notiToggle = (ToggleButton) findViewById(R.id.notiToggle);
+        notificationsVf = (ViewFlipper)findViewById(R.id.notificationsVf);
         notiToggle.setText("Zamówione przeze mnie");
         notiToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(notiToggle.isChecked()){
                     notiToggle.setText("Zamówienia na moje książki");
+                    notificationsVf.setDisplayedChild(0);
                 }else{
                     notiToggle.setText("Zamówione przeze mnie");
-
+                    notificationsVf.setDisplayedChild(1);
                 }
             }
         });
@@ -112,7 +115,7 @@ public class MainWindowActivity extends Activity {
     public void goToAddBook(){
         vf.setDisplayedChild(1);
         titleTF = (EditText) findViewById(R.id.bookTitleTF);
-        authorList.add((EditText) findViewById(R.id.bookAuthorTF));
+        author = (EditText) findViewById(R.id.bookAuthorTF);
         publicationDate = (EditText) findViewById(R.id.publicationDateTF);
         addBookButton = (Button) findViewById(R.id.addBookButton);
         addAuthorButton = (ImageButton) findViewById(R.id.addAuthorButton);
@@ -121,13 +124,9 @@ public class MainWindowActivity extends Activity {
         addBookButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("ADD book", "click");
-                addBookControler.addBook(titleTF.getText().toString(), authorList, publicationDate.getText().toString());
+                addBookControler.addBook(titleTF.getText().toString(), author, publicationDate.getText().toString());
                 titleTF.setText("");
-                if(authorList.size() == 1){
-                    authorList.get(0).setText("");
-                }else{
-
-                }
+                    author.setText("");
                 publicationDate.setText("");
             }
         });
@@ -139,7 +138,7 @@ public class MainWindowActivity extends Activity {
 
         bookOwnerListView = (ListView) findViewById(R.id.bookOwnerListView);
         bookOwnerList = new ArrayList<BookOwnerListViewModel>();
-        bookOwnerListAdapter = new BookOwnerListAdapter(getApplicationContext(), R.layout.booklistview_item_row_owner, bookOwnerList);
+        bookOwnerListAdapter = new BookOwnerListAdapter(getApplicationContext(), R.layout.booklistview_item_row_owner, bookOwnerList, this);
         bookOwnerListView.setAdapter(bookOwnerListAdapter);
 
         getOwnBooks();
@@ -225,7 +224,7 @@ public class MainWindowActivity extends Activity {
                         bookListViewModel.setId(jsonObject.getString("bookId"));
                         bookOwnerList.add(bookListViewModel);
                     }
-                    bookListAdapter.notifyDataSetChanged();
+                    bookOwnerListAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     Log.e(this.getClass().getName(), "JSON ERROR: " + e.getMessage());
                 }

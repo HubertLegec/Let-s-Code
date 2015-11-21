@@ -5,6 +5,13 @@ import book.app.server.app.dao.RequestDao;
 import book.app.server.app.dao.UserDao;
 import book.app.server.app.dto.BookToLendDTO;
 import book.app.server.app.dto.UserBook;
+
+import book.app.server.app.model.Author;
+import book.app.server.app.model.Book;
+import book.app.server.app.model.Request;
+import book.app.server.app.model.RequestStatus;
+import book.app.server.app.model.User;
+
 import book.app.server.app.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -115,6 +122,13 @@ public class BookService {
             throw new InvalidAttributesException();
         Request request = new Request(sender, book);
         request.setStatus(RequestStatus.ACTIVE);
+        requestDao.save(request);
+
+    }
+
+    public void updateRequest(final String requestId, final RequestStatus status) {
+        Request request = requestDao.findById(requestId);
+        request.setStatus(status);
         requestDao.save(request);
 
     }

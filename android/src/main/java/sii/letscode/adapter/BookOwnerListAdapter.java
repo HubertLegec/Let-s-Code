@@ -18,13 +18,18 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import sii.letscode.activities.MainWindowActivity;
 import sii.letscode.activities.R;
 import sii.letscode.model.BookListViewModel;
 import sii.letscode.model.BookOwnerListViewModel;
@@ -34,12 +39,16 @@ import sii.letscode.model.BookOwnerListViewModel;
  */
 public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
     List<BookOwnerListViewModel> data;
+    Context context;
     int resource;
+    MainWindowActivity mwa;
 
-    public BookOwnerListAdapter(Context context, int resource, List<BookOwnerListViewModel> objects) {
+    public BookOwnerListAdapter(Context context, int resource, List<BookOwnerListViewModel> objects, MainWindowActivity mwa) {
         super(context, resource, objects);
         this.data = objects;
+        this.context = context;
         this.resource = resource;
+        this.mwa = mwa;
     }
 
     @Override
@@ -49,7 +58,7 @@ public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
 
         if(row == null)
         {
-            LayoutInflater inflater = ((Activity)getContext()).getLayoutInflater();
+            LayoutInflater inflater = LayoutInflater.from(context);
             row = inflater.inflate(resource, parent, false);
 
             holder = new BookHolder();
@@ -68,6 +77,7 @@ public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
         final BookOwnerListViewModel bookListViewModel = data.get(position);
         holder.lvOwnerTitle.setText(bookListViewModel.getTitle());
         holder.lvOwnerAuthor.setText(bookListViewModel.getAuthor());
+        holder.lvOwnerYear.setText(bookListViewModel.getYear());
 
         holder.bOwnerRemove.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -96,7 +106,20 @@ public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
         params.add(TOKEN, getToken());
         params.add(BOOK_ID, bookId);
 
-        client.get(SERVER_ADDRESS + BOOKS, params, new AsyncHttpResponseHandler() {
+        Log.e(this.getClass().getName(), "LECI");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TOKEN, getToken());
+            jsonObject.put(BOOK_ID, bookId);
+        } catch (JSONException e) {
+            Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
+            return;
+        }
+        StringEntity entity = generateStringEntity(jsonObject);
+        if(entity == null)
+            return;
+        client.post(context, SERVER_ADDRESS + BOOKS, entity, "application/json", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 Context context = getContext();
@@ -105,6 +128,8 @@ public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+                mwa.goToProfile();
+
                 Log.e(this.getClass().getName(), "JSON OK");
             }
 
@@ -130,5 +155,18 @@ public class BookOwnerListAdapter extends ArrayAdapter<BookOwnerListViewModel> {
             token = query.getString(query.getColumnIndex("value"));
         }
         return token;
+    }
+
+    private StringEntity generateStringEntity(JSONObject obj){
+        StringEntity entity;
+        try {
+            entity = new StringEntity(obj.toString());
+            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        } catch (UnsupportedEncodingException e) {
+            Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
+            return null;
+        }
+
+        return entity;
     }
 }

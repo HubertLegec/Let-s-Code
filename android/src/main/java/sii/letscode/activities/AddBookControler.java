@@ -33,15 +33,12 @@ public class AddBookControler {
         this.mwa = mwa;
     }
 
-    public void addBook(String returnTitle, List<EditText> authorList, String returnPublicationDate){
+    public void addBook(String returnTitle, EditText author, String returnPublicationDate){
         Log.d("inside add book", "ok");
-        List<String> resultAuthorList = new LinkedList<String>();
-        for(EditText a : authorList){
-            resultAuthorList.add(a.getText().toString());
-        }
+
 
         AsyncHttpClient client = new AsyncHttpClient();
-        JSONObject jsonObject = generateJSONObject(returnTitle, resultAuthorList, returnPublicationDate);
+        JSONObject jsonObject = generateJSONObject(returnTitle, author.getText().toString(), returnPublicationDate);
         if(jsonObject == null)
             return;
         StringEntity entity = generateStringEntity(jsonObject);
@@ -98,16 +95,13 @@ public class AddBookControler {
         return token;
     }
 
-    private JSONObject generateJSONObject(String title, List<String> authors, String publicationDate){
+    private JSONObject generateJSONObject(String title, String author, String publicationDate){
         JSONObject jsonObject = new JSONObject();
-        StringBuilder sb = new StringBuilder();
-        for(String a : authors){
-            sb.append(a+";");
-        }
+
         String token = getToken();
         try {
             jsonObject.put("token", token);
-            jsonObject.put("authors", sb.toString());
+            jsonObject.put("authors", author);
             jsonObject.put("title", title);
             jsonObject.put("year", publicationDate);
         } catch (JSONException e) {
