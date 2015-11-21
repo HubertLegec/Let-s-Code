@@ -1,5 +1,6 @@
 package book.app.server.app.service;
 
+import java.security.InvalidKeyException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -19,10 +20,10 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-    public String addNewUser(final String email, final String password) {
+    public String addNewUser(final String email, final String password) throws InvalidKeyException {
         User user = new User(email, password);
         if (userDao.findUserByLogin(email) != null)
-            return "";
+            throw new InvalidKeyException("email is used");
         String key = UUID.randomUUID().toString().toUpperCase() + "|" + "someImportantProjectToken" + "|" + email + "|"
                 + new Date();
         String userToken = new BCryptPasswordEncoder().encode(key);
@@ -33,20 +34,20 @@ public class UserService {
     }
 
     public void updateUser(final String token, final String password, final String nick, final String city,
-            final String street, final String string) throws InvalidAttributesException {
+            final String street, final String nr) throws InvalidAttributesException {
         User user = userDao.getUserByToken(token);
         if (user == null)
             throw new InvalidAttributesException("user with this token is not available");
-        if (password != null)
+        if (password != null && !password.isEmpty())
             user.setPassword(password);
-        if (nick != null)
+        if (nick != null && !nick.isEmpty())
             user.setNick(nick);
-        if (city != null)
+        if (city != null && !city.isEmpty())
             user.getAddress().setCity(city);
-        if (street != null)
+        if (street != null && !street.isEmpty())
             user.getAddress().setStreet(street);
-        if (string != null)
-            user.getAddress().setHouseNumber(string.toString());
+        if (nr != null && !nr.isEmpty())
+            user.getAddress().setHouseNumber(nr.toString());
         userDao.save(user);
     }
 

@@ -34,13 +34,21 @@ public class BookService {
             if (author != null)
                 authorsOfBook.add(author);
             else
-                authorsOfBook.add(new Author());
+                authorsOfBook.add(new Author(authorName));
         }
         Book book = new Book(authorsOfBook, title, year, user);
+        bookDao.save(book);
+        for (Author author : book.getAuthors()) {
+            author.addBook(book);
+            bookDao.saveAuthor(author);
+        }
     }
 
-    public void getBooksByToken(final String token) {
-        // TODO Auto-generated method stub
+    public List<Book> getBooksByToken(final String token) throws InvalidAttributesException {
+        User user = userDao.getUserByToken(token);
+        if (user == null)
+            throw new InvalidAttributesException("Wrong token");
+        return bookDao.findBooksByOwner(user);
 
     }
 }
