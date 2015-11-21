@@ -10,4 +10,14 @@
             android:text="Zamówione przeze mnie"
             android:id="@+id/notiToggle" android:checked="false"/>
 
+    <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/notificationsVf"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <include android:id="@+id/notifications1" layout="@layout/main_window_not1" />
+        <include android:id="@+id/notifications2" layout="@layout/main_window_not2" />
+
+    </ViewFlipper>
+
 </LinearLayout>

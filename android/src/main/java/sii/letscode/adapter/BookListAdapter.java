@@ -19,11 +19,13 @@ import sii.letscode.model.BookListViewModel;
  */
 public class BookListAdapter extends ArrayAdapter<BookListViewModel> {
     List<BookListViewModel> data;
+    Context context;
     int resource;
 
     public BookListAdapter(Context context, int resource, List<BookListViewModel> objects) {
         super(context, resource, objects);
         this.data = objects;
+        this.context = context;
         this.resource = resource;
     }
 
@@ -34,7 +36,7 @@ public class BookListAdapter extends ArrayAdapter<BookListViewModel> {
 
         if(row == null)
         {
-            LayoutInflater inflater = ((Activity)getContext()).getLayoutInflater();
+            LayoutInflater inflater = LayoutInflater.from(context);
             row = inflater.inflate(resource, parent, false);
 
             holder = new BookHolder();
