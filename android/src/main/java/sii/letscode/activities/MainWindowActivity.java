@@ -20,7 +20,11 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import sii.letscode.adapter.BookListAdapter;
+import sii.letscode.adapter.BookListNot1Adapter;
+import sii.letscode.adapter.BookListNot2Adapter;
 import sii.letscode.adapter.BookOwnerListAdapter;
+import sii.letscode.model.BookListNot1ViewModel;
+import sii.letscode.model.BookListNot2ViewModel;
 import sii.letscode.model.BookListViewModel;
 import sii.letscode.model.BookOwnerListViewModel;
 
@@ -56,6 +60,14 @@ public class MainWindowActivity extends Activity {
     ListView bookOwnerListView;
     BookOwnerListAdapter bookOwnerListAdapter;
     ArrayList<BookOwnerListViewModel> bookOwnerList;
+
+    ListView ownBookingListView;
+    BookListNot1Adapter ownBookingListAdapter;
+    ArrayList<BookListNot1ViewModel> ownBookingList;
+
+    ListView fBookingListView;
+    BookListNot2Adapter fBookingListAdapter;
+    ArrayList<BookListNot2ViewModel> fBookingList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,19 +106,38 @@ public class MainWindowActivity extends Activity {
 
     }
 
+    private MainWindowActivity getThis(){
+        return this;
+    }
+
     public void goToNotifications(){
         vf.setDisplayedChild(3);
         notiToggle = (ToggleButton) findViewById(R.id.notiToggle);
         notificationsVf = (ViewFlipper)findViewById(R.id.notificationsVf);
+
         notiToggle.setText("Zamówione przeze mnie");
         notiToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(notiToggle.isChecked()){
                     notiToggle.setText("Zamówienia na moje książki");
                     notificationsVf.setDisplayedChild(0);
+
+                    fBookingListView = (ListView) findViewById(R.id.fBookingListView);
+                    fBookingList = new ArrayList<BookListNot2ViewModel>();
+                    fBookingListAdapter = new BookListNot2Adapter(getApplicationContext(), R.layout.booklistview_item_not2, fBookingList, getThis());
+                    fBookingListView.setAdapter(fBookingListAdapter);
+
+                    getFBorrow();
                 }else{
                     notiToggle.setText("Zamówione przeze mnie");
                     notificationsVf.setDisplayedChild(1);
+
+                    ownBookingListView = (ListView) findViewById(R.id.ownBookingListView);
+                    ownBookingList = new ArrayList<BookListNot1ViewModel>();
+                    ownBookingListAdapter = new BookListNot1Adapter(getApplicationContext(), R.layout.booklistview_item_not1, ownBookingList, getThis());
+                    ownBookingListView.setAdapter(ownBookingListAdapter);
+
+                    getOwnBorrow();
                 }
             }
         });
@@ -118,7 +149,6 @@ public class MainWindowActivity extends Activity {
         author = (EditText) findViewById(R.id.bookAuthorTF);
         publicationDate = (EditText) findViewById(R.id.publicationDateTF);
         addBookButton = (Button) findViewById(R.id.addBookButton);
-        addAuthorButton = (ImageButton) findViewById(R.id.addAuthorButton);
         addBookControler = new AddBookControler(this);
 
         addBookButton.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +192,7 @@ public class MainWindowActivity extends Activity {
     public void getBooks(String text) {
         String SERVER_ADDRESS = "http://10.0.2.2:8080";
         String BOOKS = "/searchBooks";
-        String BOOKS_QUERY = "text";
+        String BOOKS_QUERY = "query";
         String TOKEN = "token";
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -174,6 +204,7 @@ public class MainWindowActivity extends Activity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
+                    Log.e(this.getClass().getName(), new String(responseBody));
                     JSONArray jsonArray = new JSONArray(new String(responseBody));
                     //tytuł autor nick ulica miasto
                     for (int i = 0; i < jsonArray.length(); ++i) {
@@ -225,6 +256,81 @@ public class MainWindowActivity extends Activity {
                         bookOwnerList.add(bookListViewModel);
                     }
                     bookOwnerListAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.e(this.getClass().getName(), "JSON ERROR: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable throwable) {
+                Log.e(this.getClass().getName(), "JSON error: " + statusCode + " " + new String(responseBody));
+            }
+        });
+    }
+
+    public void getOwnBorrow() {
+        String SERVER_ADDRESS = "http://10.0.2.2:8080";
+        String BOOKS = "/getSentRequests";
+        String TOKEN = "token";
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add(TOKEN, getToken());
+
+        client.get(SERVER_ADDRESS + BOOKS, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    JSONArray jsonArray = new JSONArray(new String(responseBody));
+                    //tytuł autor nick ulica miasto
+                    for (int i = 0; i < jsonArray.length(); ++i) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        BookListNot1ViewModel bookListViewModel = new BookListNot1ViewModel();
+                        bookListViewModel.setTitle(jsonObject.getString("book"));
+                        bookListViewModel.setNick(jsonObject.getString("sender"));
+                        bookListViewModel.setStatus(jsonObject.getString("status"));
+                        bookListViewModel.setId(jsonObject.getString("id"));
+                        ownBookingList.add(bookListViewModel);
+                    }
+                    ownBookingListAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.e(this.getClass().getName(), "JSON ERROR: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable throwable) {
+                Log.e(this.getClass().getName(), "JSON error: " + statusCode + " " + new String(responseBody));
+            }
+        });
+    }
+
+    public void getFBorrow() {
+        String SERVER_ADDRESS = "http://10.0.2.2:8080";
+        String BOOKS = "/getReceivedRequests";
+        String TOKEN = "token";
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add(TOKEN, getToken());
+
+        client.get(SERVER_ADDRESS + BOOKS, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    JSONArray jsonArray = new JSONArray(new String(responseBody));
+                    Log.d("JSON", new String(responseBody));
+                    //tytuł autor nick ulica miasto
+                    for (int i = 0; i < jsonArray.length(); ++i) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        BookListNot2ViewModel bookListViewModel = new BookListNot2ViewModel();
+                        bookListViewModel.setTitle(jsonObject.getString("book"));
+                        bookListViewModel.setNick(jsonObject.getString("sender"));
+                        bookListViewModel.setStatus(jsonObject.getString("status"));
+                        bookListViewModel.setId(jsonObject.getString("id"));
+                        fBookingList.add(bookListViewModel);
+                    }
+                    fBookingListAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     Log.e(this.getClass().getName(), "JSON ERROR: " + e.getMessage());
                 }

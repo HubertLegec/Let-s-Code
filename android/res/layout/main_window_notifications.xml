@@ -15,8 +15,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <include android:id="@+id/notifications1" layout="@layout/main_window_not1" />
         <include android:id="@+id/notifications2" layout="@layout/main_window_not2" />
+        <include android:id="@+id/notifications1" layout="@layout/main_window_not1" />
 
     </ViewFlipper>
 

@@ -34,15 +34,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:weightSum="1" android:id="@+id/lastAuthor">
             <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/bookAuthorTF" android:layout_weight="0.96"/>
-            <ImageButton
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/addAuthorButton" android:src="@drawable/add_book_icon"
-                    android:scaleType="centerInside"
-                    android:adjustViewBounds="true"/>
         </LinearLayout>
         <TextView
                 android:layout_width="wrap_content"
@@ -59,5 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dodaj książkę"
-            android:id="@+id/addBookButton"/>
+            android:id="@+id/addBookButton"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

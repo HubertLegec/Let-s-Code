@@ -7,7 +7,7 @@
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Logowanie"
+            android:text="                 Logowanie"
             android:layout_weight="0.10" android:textAlignment="center" android:textSize="28dp"
             android:elegantTextHeight="true" />
     <TextView
@@ -17,7 +17,7 @@
             android:text="E-mail"
             android:id="@+id/textView"/>
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
@@ -29,7 +29,7 @@
             android:text="Hasło"
             android:id="@+id/passwordTV"/>
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
@@ -39,12 +39,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Zaloguj"
-            android:id="@+id/logButton"/>
+            android:id="@+id/logButton"
+        android:layout_gravity="center_horizontal" />
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rejestracja"
             android:id="@+id/changeToRegister" android:enabled="true"
-    />
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
 
