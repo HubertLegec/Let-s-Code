@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import book.app.server.app.dao.UserDao;
+import book.app.server.app.model.Address;
 import book.app.server.app.model.Token;
 import book.app.server.app.model.User;
 
@@ -42,6 +43,8 @@ public class UserService {
             user.setPassword(password);
         if (nick != null && !nick.isEmpty())
             user.setNick(nick);
+        if (user.getAddress() == null)
+            user.setAddress(new Address());
         if (city != null && !city.isEmpty())
             user.getAddress().setCity(city);
         if (street != null && !street.isEmpty())

@@ -40,7 +40,6 @@ public class User {
     public User(final String email, final String password) {
         this.email = email;
         this.password = password;
-        address = new Address();
     }
 
     public String getEmail() {
