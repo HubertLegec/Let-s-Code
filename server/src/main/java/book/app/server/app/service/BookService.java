@@ -19,6 +19,7 @@ import book.app.server.app.dto.UserBook;
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
 import book.app.server.app.model.Request;
+import book.app.server.app.model.RequestStatus;
 import book.app.server.app.model.User;
 
 @Repository
@@ -123,6 +124,13 @@ public class BookService {
         if (sender == null)
             throw new InvalidAttributesException();
         Request request = new Request(sender, book);
+        requestDao.save(request);
+
+    }
+
+    public void updateRequest(final String requestId, final RequestStatus status) {
+        Request request = requestDao.findById(requestId);
+        request.setStatus(status);
         requestDao.save(request);
 
     }

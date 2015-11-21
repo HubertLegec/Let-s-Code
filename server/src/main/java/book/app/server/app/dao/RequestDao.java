@@ -15,4 +15,6 @@ public interface RequestDao {
     public List<Request> findByReceiver(User receiver);
 
     public void save(Request request);
+
+    public Request findById(final String requestId);
 }
