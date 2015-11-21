@@ -1,10 +1,9 @@
 package book.app.server.app.dto;
 
-import java.util.List;
 
 public class BookDTO {
     private String token;
-    private List<String> authors;
+    private String authors;
     private String title;
     private String year;
 
@@ -16,11 +15,11 @@ public class BookDTO {
         this.token = token;
     }
 
-    public List<String> getAuthors() {
+    public String getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(String authors) {
         this.authors = authors;
     }
 

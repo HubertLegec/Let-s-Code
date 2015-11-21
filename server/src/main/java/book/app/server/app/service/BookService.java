@@ -3,6 +3,7 @@ package book.app.server.app.service;
 import book.app.server.app.dao.BookDao;
 import book.app.server.app.dao.UserDao;
 import book.app.server.app.dto.BookToLendDTO;
+import book.app.server.app.dto.UserBook;
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
 import book.app.server.app.model.User;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import javax.naming.directory.InvalidAttributesException;
 
 import java.security.acl.Owner;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,13 +28,15 @@ public class BookService {
     @Autowired
     private UserDao userDao;
 
-    public void addBook(final String token, final List<String> authors, final String title, final String year)
+    public void addBook(final String token, final String authors, final String title, final String year)
             throws InvalidAttributesException {
         User user = userDao.getUserByToken(token);
+        List<String> authorsList = parseAuthors(authors);
+        // parseAuthors()
         if (user == null)
             throw new InvalidAttributesException("Wrong token");
         Set<Author> authorsOfBook = new HashSet<Author>();
-        for (String authorName : authors) {
+        for (String authorName : authorsList) {
             Author author = bookDao.findAuthorByName(authorName);
             if (author != null)
                 authorsOfBook.add(author);
@@ -47,11 +51,21 @@ public class BookService {
         }
     }
 
-    public List<Book> getBooksByToken(final String token) throws InvalidAttributesException {
+    private List<String> parseAuthors(String authors) {
+        return new LinkedList<String>(Arrays.asList(authors.split(";")));
+    }
+
+    public List<UserBook> getBooksByToken(final String token) throws InvalidAttributesException {
         User user = userDao.getUserByToken(token);
         if (user == null)
             throw new InvalidAttributesException("Wrong token");
-        return bookDao.findBooksByOwner(user);
+        List<Book> books = bookDao.findBooksByOwner(user);
+        List<UserBook> result = new LinkedList<UserBook>();
+        for (Book book : books) {
+            result.add(new UserBook(book.getId(), book.getTitle(), prepareAuthors(book.getAuthors()), String
+                    .valueOf(book.getYear())));
+        }
+        return result;
 
     }
 
