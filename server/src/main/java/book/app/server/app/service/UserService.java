@@ -22,16 +22,21 @@ public class UserService {
     private UserDao userDao;
 
     public String addNewUser(final String email, final String password) throws InvalidKeyException {
-        User user = new User(email, password);
+        User user = new User(email, new BCryptPasswordEncoder().encode(password));
         if (userDao.findUserByLogin(email) != null)
             throw new InvalidKeyException("email is used");
+        String userToken = prepareToken(email);
+        user.addToken(new Token(userToken, user));
+        userDao.save(user);
+        return userToken;
+
+    }
+
+    private String prepareToken(final String email) {
         String key = UUID.randomUUID().toString().toUpperCase() + "|" + "someImportantProjectToken" + "|" + email + "|"
                 + new Date();
         String userToken = new BCryptPasswordEncoder().encode(key);
-        user.addToken(new Token(userToken, user));
-        userDao.save(user);
-        return new String(userToken);
-
+        return userToken;
     }
 
     public void updateUser(final String token, final String password, final String nick, final String city,
@@ -52,6 +57,20 @@ public class UserService {
         if (nr != null && !nr.isEmpty())
             user.getAddress().setHouseNumber(nr.toString());
         userDao.save(user);
+    }
+
+    public String login(String email, String password) throws InvalidKeyException {
+        User user = userDao.findUserByLogin(email);
+
+        if (user == null)
+            throw new InvalidKeyException("email is wrong");
+        else if (!new BCryptPasswordEncoder().matches(password, user.getPassword()))
+            throw new InvalidKeyException("password is wrong");
+        String token = prepareToken(email);
+        user.addToken(new Token(token, user));
+        userDao.save(user);
+        return token;
+
     }
 
 }
