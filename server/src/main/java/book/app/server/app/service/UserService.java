@@ -90,8 +90,8 @@ public class UserService {
         for (Request request: requestList) {
             RequestDTO requestDTO = new RequestDTO();
             requestDTO.setId(request.getId().toString());
-            requestDTO.setBook(request.getBook().getId().toString());
-            requestDTO.setSender(Long.toString(request.getSender().getId()));
+            requestDTO.setBook(request.getBook().getTitle().toString());
+            requestDTO.setSender(request.getSender().getNick());
             requestDTO.setStatus(request.getStatus().name());
             requestDTOList.add(requestDTO);
         }
@@ -107,8 +107,8 @@ public class UserService {
         for (Request request: requestList) {
             RequestDTO requestDTO = new RequestDTO();
             requestDTO.setId(request.getId().toString());
-            requestDTO.setBook(request.getBook().getId().toString());
-            requestDTO.setSender(Long.toString(request.getSender().getId()));
+            requestDTO.setBook(request.getBook().getTitle().toString());
+            requestDTO.setSender(request.getSender().getNick());
             requestDTO.setStatus(request.getStatus().name());
             requestDTOList.add(requestDTO);
         }
