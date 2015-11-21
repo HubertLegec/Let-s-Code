@@ -19,9 +19,9 @@ public class RequestDaoImpl implements RequestDao {
 
 
     private static final String FIND_REQUEST_BY_SENDER = "select r from Request r where r.sender = :sender " +
-            "and (r.status = 'ACCEPTED' or r.status = 'REJECTED')";
+            "and (r.status = 'ACCEPTED' or r.status = 'REJECTED' or r.status = 'LENT')";
     private static final String FIND_REQUEST_BY_RECEIVER = "select r from Request r where r.book.owner = :receiver " +
-            "and (r.status = 'ACTIVE' or r.status = 'ACCEPTED')";
+            "and (r.status = 'ACTIVE' or r.status = 'ACCEPTED' or r.status = 'LENT')";
 
 
     @PersistenceContext

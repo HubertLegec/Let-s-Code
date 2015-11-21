@@ -145,7 +145,10 @@ public class BookService {
             updateRequest(requestId, RequestStatus.REJECTED);
         } else if (action.equals("CANCEL")) {
             updateRequest(requestId, RequestStatus.INACTIVE);
-        } else {
+        } else if (action.equals("LEND")) {
+            updateRequest(requestId, RequestStatus.LENT);
+        }
+        else {
             throw new IllegalArgumentException();
         }
 
