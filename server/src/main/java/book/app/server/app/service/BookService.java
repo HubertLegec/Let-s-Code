@@ -45,7 +45,7 @@ public class BookService {
                 authorsOfBook.add(new Author(authorName));
         }
         Book book = new Book(authorsOfBook, title, year, user);
-        bookDao.save(book);
+//        bookDao.save(book);
         for (Author author : book.getAuthors()) {
             author.addBook(book);
             bookDao.saveAuthor(author);
@@ -75,9 +75,6 @@ public class BookService {
         List<BookToLendDTO> result = new LinkedList<BookToLendDTO>();
         List<Book> books = bookDao.findBooks(query);
         for (Book book : books) {
-            System.out.println("\n\n");
-            System.out.println(book.getTitle());
-            System.out.println("\n\n");
             if (!book.getOwner().equals(user)
                     && book.getOwner().getAddress().getCity().equals(user.getAddress().getCity())) {
                 result.add(new BookToLendDTO(book.getId(), book.getTitle(), prepareAuthors(book.getAuthors()), book

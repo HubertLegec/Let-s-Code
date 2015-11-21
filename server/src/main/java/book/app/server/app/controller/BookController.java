@@ -1,6 +1,5 @@
 package book.app.server.app.controller;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.naming.directory.InvalidAttributesException;
@@ -49,18 +48,6 @@ public class BookController {
             throws InvalidAttributesException {
         return bookService.getBooks(token, query);
     }
-
-    // @ResponseBody
-    // @ResponseStatus(HttpStatus.OK)
-    // @RequestMapping(path = "/test", method = RequestMethod.GET)
-    // public BookDTO test() throws InvalidAttributesException {
-    // BookDTO book = new BookDTO();
-    // authors.add("authro");
-    // book.setTitle("asd");
-    // book.setToken("asd");
-    // book.setYear("2343");
-    // return book;
-    // }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
