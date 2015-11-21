@@ -38,6 +38,8 @@ public class BookController {
     @RequestMapping(path = "/searchBooks", method = RequestMethod.GET)
     public List<BookToLendDTO> searchBooks(@RequestParam("token") String token, @RequestParam("query") String query)
             throws InvalidAttributesException {
+        if (query == null)
+            query = "";
         return bookService.getBooks(token, query);
     }
 
