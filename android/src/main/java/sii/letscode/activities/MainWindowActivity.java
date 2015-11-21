@@ -60,17 +60,11 @@ public class MainWindowActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_window);
         vf = (ViewFlipper)findViewById(R.id.vf);
-        vf.setDisplayedChild(0);
         findButton = (ImageButton) findViewById(R.id.findButton);
         addButton = (ImageButton) findViewById(R.id.addButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
         settingsButton = (ImageButton) findViewById(R.id.settingsButton);
-        searchTF = (EditText) findViewById(R.id.searchTF);
-        searchButton = (Button) findViewById(R.id.searchButton);
-        bookListView = (ListView) findViewById(R.id.bookListView);
-        bookList = new ArrayList<BookListViewModel>();
-        bookListAdapter = new BookListAdapter(this, R.layout.booklistview_item_row, bookList);
-        bookListView.setAdapter(bookListAdapter);
+        goToFind();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -78,10 +72,21 @@ public class MainWindowActivity extends Activity {
             }
         });
 
+        findButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                goToFind();
+            }
+        });
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                goToProfile();
+            }
+        });
+
     }
 
     public void goToAddBook(){
-        //setContentView(R.layout.main_window_add);
         vf.setDisplayedChild(1);
         titleTF = (EditText) findViewById(R.id.bookTitleTF);
         authorList.add((EditText) findViewById(R.id.bookAuthorTF));
@@ -104,26 +109,32 @@ public class MainWindowActivity extends Activity {
             }
         });
 
+    }
+
+    public void goToProfile(){
+        vf.setDisplayedChild(2);
+
+        bookOwnerListView = (ListView) findViewById(R.id.bookOwnerListView);
+        bookOwnerList = new ArrayList<BookOwnerListViewModel>();
+        bookOwnerListAdapter = new BookOwnerListAdapter(getApplicationContext(), R.layout.booklistview_item_row_owner, bookOwnerList);
+        bookOwnerListView.setAdapter(bookOwnerListAdapter);
+
+        getOwnBooks();
+    }
+
+    public void goToFind(){
+        vf.setDisplayedChild(0);
+        searchTF = (EditText) findViewById(R.id.searchTF);
+        searchButton = (Button) findViewById(R.id.searchButton);
+        bookListView = (ListView) findViewById(R.id.bookListView);
+        bookList = new ArrayList<BookListViewModel>();
+        bookListAdapter = new BookListAdapter(this, R.layout.booklistview_item_row, bookList);
+        bookListView.setAdapter(bookListAdapter);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getBooks(searchTF.getText().toString());
             }
         });
-
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //setContentView(R.layout.main_window_profile);
-                vf.setDisplayedChild(2);
-
-                bookOwnerListView = (ListView) findViewById(R.id.bookOwnerListView);
-                bookOwnerList = new ArrayList<BookOwnerListViewModel>();
-                bookOwnerListAdapter = new BookOwnerListAdapter(getApplicationContext(), R.layout.booklistview_item_row_owner, bookOwnerList);
-                bookOwnerListView.setAdapter(bookOwnerListAdapter);
-
-                getOwnBooks();
-            }
-        });
-
     }
 
     public void getBooks(String text) {
