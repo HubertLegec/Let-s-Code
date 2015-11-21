@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +36,7 @@ public class RequestDaoImpl implements RequestDao{
     }
 
     @Override
+    @Transactional
     public void save(Request request) {
         em.merge(request);
     }

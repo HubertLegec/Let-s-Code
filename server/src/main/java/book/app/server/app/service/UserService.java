@@ -1,20 +1,18 @@
 package book.app.server.app.service;
 
-import java.security.InvalidKeyException;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import javax.naming.directory.InvalidAttributesException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Repository;
-
 import book.app.server.app.dao.UserDao;
 import book.app.server.app.model.Address;
 import book.app.server.app.model.Token;
 import book.app.server.app.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Repository;
+
+import javax.naming.directory.InvalidAttributesException;
+import java.security.InvalidKeyException;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class UserService {
@@ -75,5 +73,6 @@ public class UserService {
         return token;
 
     }
+
 
 }
