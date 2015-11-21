@@ -1,5 +1,6 @@
 package book.app.server.app.dao;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -77,7 +78,8 @@ public class BookDaoImpl implements BookDao {
     @SuppressWarnings("unchecked")
     @Override
     public Set<Author> findAuthorsByBookId(final Long bookId) {
-        return (Set<Author>) em.createQuery(FIND_AUTHORS_BY_BOOK_ID).setParameter("bookId", bookId).getResultList();
-        
+        return new HashSet((List<Author>) em.createQuery(FIND_AUTHORS_BY_BOOK_ID).setParameter("bookId", bookId)
+                .getResultList());
+
     }
 }
