@@ -51,7 +51,6 @@ public class BookService {
         }
 
         Book book = new Book(authorsOfBook, title, year, user);
-        // bookDao.save(book);
         for (Author author : book.getAuthors()) {
             author.addBook(book);
             bookDao.saveAuthor(author);
@@ -69,8 +68,9 @@ public class BookService {
         List<Book> books = bookDao.findBooksByOwner(user);
         List<UserBook> result = new LinkedList<UserBook>();
         for (Book book : books) {
+            System.out.println(book.getTitle());
             book.setAuthors(bookDao.findAuthorsByBookId(book.getId()));
-            result.add(new UserBook(book.getId(), book.getTitle(), prepareAuthors(book.getAuthors()), String
+            result.add(new UserBook(book.getId().toString(), book.getTitle(), prepareAuthors(book.getAuthors()), String
                     .valueOf(book.getYear())));
         }
         return result;

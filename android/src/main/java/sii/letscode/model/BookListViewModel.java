@@ -11,13 +11,13 @@ public class BookListViewModel {
     private String author;
     private String nick;
     private String street;
-    private long id;
+    private String id;
 
     public BookListViewModel() {
 
     }
 
-    public BookListViewModel(String title, String author, String nick, String street, int id) {
+    public BookListViewModel(String title, String author, String nick, String street, String id) {
         this.title = title;
         this.author = author;
         this.nick = nick;
@@ -57,11 +57,11 @@ public class BookListViewModel {
         this.street = street;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }
