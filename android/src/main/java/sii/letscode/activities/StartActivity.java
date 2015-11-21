@@ -49,7 +49,7 @@ public class StartActivity extends Activity {
             loggRegButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if(loggRegButton.getText().toString().equals("Zaloguj")) {
-
+                        loggonUser(emailTf.getText().toString(), passwordTf.getText().toString());
                     } else{
                         registerUser(emailTf.getText().toString(), passwordTf.getText().toString());
                     }
@@ -72,11 +72,15 @@ public class StartActivity extends Activity {
 
 
     private boolean isLoggedIn(){
-        return false;
+        if(getToken() == null)
+            return false;
+        else
+            return true;
     }
 
     private String SERVER_ADDRESS = "http://10.0.2.2:8080";
     private String ADD_USER = "/addUser";
+    private String LOG_USER = "/login";
     private String USER_EMAIL = "email";
     private String USER_PASSWORD = "password";
 
@@ -90,14 +94,9 @@ public class StartActivity extends Activity {
             Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
             return;
         }
-        StringEntity entity;
-        try {
-            entity = new StringEntity(jsonObject.toString());
-            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-        } catch (UnsupportedEncodingException e) {
-            Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
+        StringEntity entity = generateStringEntity(jsonObject);
+        if(entity == null)
             return;
-        }
         client.post(getApplicationContext(), SERVER_ADDRESS + ADD_USER, entity, "application/json", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -107,6 +106,38 @@ public class StartActivity extends Activity {
                 mNewValues.put("value", new String(responseBody));
                 getContentResolver().insert(Uri.parse("content://sii.letscode.contentProviders/properties"), mNewValues);
                 goToNextScreen();
+                Log.e(this.getClass().getName(), "JSON OK");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable throwable) {
+                Log.e(this.getClass().getName(), "JSON error: " + statusCode + " " + new String(responseBody));
+            }
+        });
+    }
+
+    private void loggonUser(String email, String password){
+        AsyncHttpClient client = new AsyncHttpClient();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(USER_EMAIL, email);
+            jsonObject.put(USER_PASSWORD, password);
+        } catch (JSONException e) {
+            Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
+            return;
+        }
+        StringEntity entity = generateStringEntity(jsonObject);
+        if(entity == null)
+            return;
+        client.post(getApplicationContext(), SERVER_ADDRESS + LOG_USER, entity, "application/json", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.e(this.getClass().getName(), new String(responseBody));
+                ContentValues mNewValues = new ContentValues();
+                mNewValues.put("id", "token");
+                mNewValues.put("value", new String(responseBody));
+                getContentResolver().insert(Uri.parse("content://sii.letscode.contentProviders/properties"), mNewValues);
+                goToMainWindow();
                 Log.e(this.getClass().getName(), "JSON OK");
             }
 
@@ -127,14 +158,7 @@ public class StartActivity extends Activity {
     private void completeUserData(String nick, String city, String street, String houseNumber){
         AsyncHttpClient client = new AsyncHttpClient();
         JSONObject jsonObject = new JSONObject();
-        String[] projection = {"value"};
-        Cursor query = getContentResolver().query(Uri.parse("content://sii.letscode.contentProviders/properties")
-                , projection, "", new String[0], "");
-        String token = null;
-        if (query.moveToFirst()){
-                token = query.getString(query.getColumnIndex("value"));
-        }
-        Log.d("T:   ", token + " " + nick + " " + city + " " + street);
+        String token = getToken();
         try {
             jsonObject.put(USER_TOKEN, token);
             jsonObject.put(USER_PASSWORD, "");
@@ -146,14 +170,10 @@ public class StartActivity extends Activity {
             Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
             return;
         }
-        StringEntity entity;
-        try {
-            entity = new StringEntity(jsonObject.toString());
-            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-        } catch (UnsupportedEncodingException e) {
-            Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
+
+        StringEntity entity = generateStringEntity(jsonObject);
+        if(entity == null)
             return;
-        }
 
         client.post(getApplicationContext(), SERVER_ADDRESS + UPDATE_USER, entity, "application/json", new AsyncHttpResponseHandler() {
             @Override
@@ -187,5 +207,29 @@ public class StartActivity extends Activity {
         Intent myIntent = new Intent(getWindow().getContext(), MainWindowActivity.class);
         super.onResume();
         startActivityForResult(myIntent, 0);
+    }
+
+    private String getToken(){
+        String[] projection = {"value"};
+        Cursor query = getContentResolver().query(Uri.parse("content://sii.letscode.contentProviders/properties")
+                , projection, "", new String[0], "");
+        String token = null;
+        if (query.moveToFirst()){
+            token = query.getString(query.getColumnIndex("value"));
+        }
+        return token;
+    }
+
+    private StringEntity generateStringEntity(JSONObject obj){
+        StringEntity entity;
+        try {
+            entity = new StringEntity(obj.toString());
+            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        } catch (UnsupportedEncodingException e) {
+            Log.e(this.getClass().getName(), "JSON error: " + e.getMessage());
+            return null;
+        }
+
+        return entity;
     }
 }
