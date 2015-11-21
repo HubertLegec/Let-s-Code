@@ -6,6 +6,7 @@ import book.app.server.app.dto.BookToLendDTO;
 import book.app.server.app.dto.UserBook;
 import book.app.server.app.model.Author;
 import book.app.server.app.model.Book;
+import book.app.server.app.model.Token;
 import book.app.server.app.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,11 +97,15 @@ public class BookService {
         return sb.toString();
     }
 
-    public void removeBook(final String token, final Long bookId) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void removeBook(final String token, final Long bookId) throws InvalidAttributesException {
         Book book = bookDao.findBookById(bookId);
-        User user = book.getOwner();
-//        List<Token> tokens
-        
-
+        User owner = book.getOwner();
+        User user = userDao.getUserByToken(token);
+        if (user == null || owner.getId() != user.getId())
+            throw new InvalidAttributesException();
+        user.setBooks(new HashSet(bookDao.findBooksByOwner(owner)));
+        user.removeBook(bookId);
+        userDao.save(user);
     }
 }

@@ -105,4 +105,13 @@ public class User {
         this.nick = nick;
     }
 
+    public void removeBook(Long bookId) {
+        for (Book book : books) {
+            if (book.getId().equals(bookId)) {
+                books.remove(book);
+                return;
+            }
+        }
+    }
+
 }
