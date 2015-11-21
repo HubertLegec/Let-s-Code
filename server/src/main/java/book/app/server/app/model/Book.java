@@ -1,16 +1,10 @@
 package book.app.server.app.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by krzysiek on 20.11.15.

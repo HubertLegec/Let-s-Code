@@ -1,14 +1,17 @@
 package book.app.server.app.controller;
 
 import book.app.server.app.dto.BookDTO;
+import book.app.server.app.dto.BookToLendDTO;
 import book.app.server.app.model.Book;
 import book.app.server.app.service.BookService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.directory.InvalidAttributesException;
+
 import java.util.List;
 
 @Controller
@@ -27,8 +30,9 @@ public class BookController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/searchBooks", method = RequestMethod.GET)
-    public List<Book> searchBooks(@RequestParam("query") String query) throws InvalidAttributesException {
-        return bookService.getBooks(query);
+    public List<BookToLendDTO> searchBooks(@RequestParam("token") String token, @RequestParam("query") String query)
+            throws InvalidAttributesException {
+        return bookService.getBooks(token, query);
     }
 
     @ResponseBody

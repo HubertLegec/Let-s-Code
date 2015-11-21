@@ -2,18 +2,30 @@ package book.app.server.app.dto;
 
 public class BookToLendDTO {
 
-    private Integer bookId;
+    private Long bookId;
     private String title;
     private String author;
     private String nick;
     private String city;
     private String street;
 
-    public Integer getBookId() {
+    public BookToLendDTO() {
+    }
+
+    public BookToLendDTO(Long bookId, String title, String author, String nick, String city, String street) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.nick = nick;
+        this.city = city;
+        this.street = street;
+    }
+
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(Integer bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
