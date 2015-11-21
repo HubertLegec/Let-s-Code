@@ -14,27 +14,27 @@
                 android:id="@+id/findButton" android:src="@drawable/find_icon"
                 android:scaleType="centerInside"
                 android:adjustViewBounds="true"
-        />
+                android:layout_weight="1"/>
         <ImageButton
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/addButton"
                 android:src="@drawable/add_icon"
                 android:scaleType="centerInside"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" android:layout_weight="1"/>
         <ImageButton
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/profileButton"
                 android:scaleType="centerInside"
-                android:adjustViewBounds="true" android:src="@drawable/profile_icon"/>
+                android:adjustViewBounds="true" android:src="@drawable/profile_icon" android:layout_weight="1"/>
         <ImageButton
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:id="@+id/settingsButton"
+                android:id="@+id/notificationsButton"
                 android:src="@drawable/settings_icon"
                 android:scaleType="centerInside"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true" android:layout_weight="1"/>
     </LinearLayout>
     <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/vf"
@@ -44,6 +44,6 @@
         <include android:id="@+id/find" layout="@layout/main_window_find" />
         <include android:id="@+id/add" layout="@layout/main_window_add" />
         <include android:id="@+id/profile" layout="@layout/main_window_profile" />
-
+        <include android:id="@+id/notifications" layout="@layout/main_window_notifications" />
     </ViewFlipper>
 </LinearLayout>

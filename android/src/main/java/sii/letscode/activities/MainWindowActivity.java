@@ -34,7 +34,7 @@ public class MainWindowActivity extends Activity {
     private ImageButton findButton;
     private ImageButton addButton;
     private ImageButton profileButton;
-    private ImageButton settingsButton;
+    private ImageButton notificationsButton;
     private AddBookControler addBookControler;
     //add book
 
@@ -43,6 +43,7 @@ public class MainWindowActivity extends Activity {
     private EditText publicationDate;
     private Button addBookButton;
     private ImageButton addAuthorButton;
+    private ToggleButton notiToggle;
 
     EditText searchTF;
     Button searchButton;
@@ -63,7 +64,7 @@ public class MainWindowActivity extends Activity {
         findButton = (ImageButton) findViewById(R.id.findButton);
         addButton = (ImageButton) findViewById(R.id.addButton);
         profileButton = (ImageButton) findViewById(R.id.profileButton);
-        settingsButton = (ImageButton) findViewById(R.id.settingsButton);
+        notificationsButton = (ImageButton) findViewById(R.id.notificationsButton);
         goToFind();
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +85,28 @@ public class MainWindowActivity extends Activity {
             }
         });
 
+        notificationsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                goToNotifications();
+            }
+        });
+
+    }
+
+    public void goToNotifications(){
+        vf.setDisplayedChild(3);
+        notiToggle = (ToggleButton) findViewById(R.id.notiToggle);
+        notiToggle.setText("Zamówione przeze mnie");
+        notiToggle.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(notiToggle.isChecked()){
+                    notiToggle.setText("Zamówienia na moje książki");
+                }else{
+                    notiToggle.setText("Zamówione przeze mnie");
+
+                }
+            }
+        });
     }
 
     public void goToAddBook(){
