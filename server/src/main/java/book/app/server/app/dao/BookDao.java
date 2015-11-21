@@ -19,4 +19,6 @@ public interface BookDao {
 
     public List<Book> findBooks(final String query);
 
+    public Book findBookById(final Long bookId);
+
 }

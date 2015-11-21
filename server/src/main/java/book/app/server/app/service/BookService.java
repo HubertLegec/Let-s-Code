@@ -95,4 +95,12 @@ public class BookService {
         }
         return sb.toString();
     }
+
+    public void removeBook(final String token, final Long bookId) {
+        Book book = bookDao.findBookById(bookId);
+        User user = book.getOwner();
+//        List<Token> tokens
+        
+
+    }
 }

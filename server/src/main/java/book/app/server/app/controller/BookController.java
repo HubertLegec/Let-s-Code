@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import book.app.server.app.dto.BookDTO;
 import book.app.server.app.dto.BookToLendDTO;
+import book.app.server.app.dto.RemoveBookDTO;
 import book.app.server.app.dto.UserBook;
 import book.app.server.app.service.BookService;
 
@@ -36,23 +37,30 @@ public class BookController {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/remove", method = RequestMethod.POST)
+    public void removeBook(@RequestBody RemoveBookDTO bookToRemove) throws InvalidAttributesException {
+        bookService.removeBook(bookToRemove.getToken(), bookToRemove.getBookId());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/searchBooks", method = RequestMethod.GET)
     public List<BookToLendDTO> searchBooks(@RequestParam("token") String token, @RequestParam("query") String query)
             throws InvalidAttributesException {
         return bookService.getBooks(token, query);
     }
 
-//    @ResponseBody
-//    @ResponseStatus(HttpStatus.OK)
-//    @RequestMapping(path = "/test", method = RequestMethod.GET)
-//    public BookDTO test() throws InvalidAttributesException {
-//        BookDTO book = new BookDTO();
-//        authors.add("authro");
-//        book.setTitle("asd");
-//        book.setToken("asd");
-//        book.setYear("2343");
-//        return book;
-//    }
+    // @ResponseBody
+    // @ResponseStatus(HttpStatus.OK)
+    // @RequestMapping(path = "/test", method = RequestMethod.GET)
+    // public BookDTO test() throws InvalidAttributesException {
+    // BookDTO book = new BookDTO();
+    // authors.add("authro");
+    // book.setTitle("asd");
+    // book.setToken("asd");
+    // book.setYear("2343");
+    // return book;
+    // }
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
