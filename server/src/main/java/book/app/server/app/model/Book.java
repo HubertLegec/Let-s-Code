@@ -1,16 +1,8 @@
 package book.app.server.app.model;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * Created by krzysiek on 20.11.15.
@@ -37,6 +29,9 @@ public class Book {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "book")
+    private Set<Request> requests = new HashSet<>();
 
     public Book() {
 
