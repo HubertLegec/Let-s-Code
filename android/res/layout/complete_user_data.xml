@@ -46,5 +46,16 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Numer domu:"
-            android:id="@+id/textView3"/>
+            android:id="@+id/houseNumberTV"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/houseNumberTF"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dalej"
+            android:id="@+id/confirmExtraDataButton"/>
 </LinearLayout>
