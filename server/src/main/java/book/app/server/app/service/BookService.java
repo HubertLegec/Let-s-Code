@@ -71,8 +71,8 @@ public class BookService {
         List<Book> books = bookDao.findBooks(query);
         for (Book book : books) {
             book.setAuthors(bookDao.findAuthorsByBookId(book.getId()));
-            if (!book.getOwner().equals(user)
-                    && book.getOwner().getAddress().getCity().equals(user.getAddress().getCity())) {
+            if (book.getOwner() != null && !book.getOwner().equals(user)
+                    ) {
                 result.add(new BookToLendDTO(book.getId(), book.getTitle(), prepareAuthors(book.getAuthors()), book
                         .getOwner().getNick(), book.getOwner().getAddress().getCity(), book.getOwner().getAddress()
                         .getStreet()));

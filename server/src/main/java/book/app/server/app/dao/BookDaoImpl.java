@@ -76,7 +76,7 @@ public class BookDaoImpl implements BookDao {
         em.remove(em.contains(book) ? book : em.merge(book));
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Set<Author> findAuthorsByBookId(final Long bookId) {
         return new HashSet((List<Author>) em.createQuery(FIND_AUTHORS_BY_BOOK_ID).setParameter("bookId", bookId)

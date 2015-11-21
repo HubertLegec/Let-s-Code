@@ -1,17 +1,15 @@
 package book.app.server.app.dao;
 
-import book.app.server.app.model.Request;
-import book.app.server.app.model.RequestStatus;
-import book.app.server.app.model.User;
-
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import java.util.List;
-import java.util.Set;
+import org.springframework.stereotype.Repository;
+
+import book.app.server.app.model.Request;
+import book.app.server.app.model.User;
 
 /**
  * Created by krzysiek on 21.11.15.
@@ -29,11 +27,13 @@ public class RequestDaoImpl implements RequestDao {
     @PersistenceContext
     private EntityManager em;
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Request> findBySender(final User sender) {
         return (List<Request>) em.createQuery(FIND_REQUEST_BY_SENDER).setParameter("sender", sender).getResultList();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Request> findByReceiver(final User receiver) {
         return (List<Request>) em.createQuery(FIND_REQUEST_BY_RECEIVER).setParameter("receiver", receiver)
