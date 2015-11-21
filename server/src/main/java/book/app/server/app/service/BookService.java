@@ -5,13 +5,6 @@ import book.app.server.app.dao.RequestDao;
 import book.app.server.app.dao.UserDao;
 import book.app.server.app.dto.BookToLendDTO;
 import book.app.server.app.dto.UserBook;
-
-import book.app.server.app.model.Author;
-import book.app.server.app.model.Book;
-import book.app.server.app.model.Request;
-import book.app.server.app.model.RequestStatus;
-import book.app.server.app.model.User;
-
 import book.app.server.app.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -126,10 +119,30 @@ public class BookService {
 
     }
 
-    public void updateRequest(final String requestId, final RequestStatus status) {
+    private void updateRequest(final String requestId, final RequestStatus status) {
         Request request = requestDao.findById(requestId);
         request.setStatus(status);
         requestDao.save(request);
+    }
+
+    public void applyRequestAction(final String token, final String requestId, final String action) {
+        // TODO rewrite this shit!
+ t        if (action.equals("OK")) {
+            updateRequest(requestId, RequestStatus.INACTIVE);
+        }
+        else if (action.equals("ACCEPT")) {
+            updateRequest(requestId, RequestStatus.ACCEPTED);
+        }
+        else if (action.equals("REJECT")) {
+            updateRequest(requestId, RequestStatus.REJECTED);
+        }
+        else if (action.equals("CANCEL")) {
+            updateRequest(requestId, RequestStatus.INACTIVE);
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
+
 
     }
 }
