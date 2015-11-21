@@ -97,4 +97,21 @@ public class UserService {
         }
         return requestDTOList;
     }
+
+    public List<RequestDTO> getReceivedRequests(String token) throws InvalidAttributesException {
+        User sender = userDao.getUserByToken(token);
+        if (sender == null)
+            throw new InvalidAttributesException();
+        List<Request> requestList = requestDao.findByReceiver(sender);
+        List<RequestDTO> requestDTOList = new LinkedList<>();
+        for (Request request: requestList) {
+            RequestDTO requestDTO = new RequestDTO();
+            requestDTO.setId(request.getId().toString());
+            requestDTO.setBook(request.getBook().getId().toString());
+            requestDTO.setSender(Long.toString(request.getSender().getId()));
+            requestDTO.setStatus(request.getStatus().name());
+            requestDTOList.add(requestDTO);
+        }
+        return requestDTOList;
+    }
 }

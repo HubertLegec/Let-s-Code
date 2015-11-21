@@ -44,8 +44,16 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/getSentRequests", method = RequestMethod.GET)
-    public List<RequestDTO> searchBooks(@RequestParam("token") String token) throws InvalidAttributesException {
+    public List<RequestDTO> getSentRequests(@RequestParam("token") String token) throws InvalidAttributesException {
         List<RequestDTO> requestList = userService.getSentRequests(token);
+        return requestList;
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/getReceivedRequests", method = RequestMethod.GET)
+    public List<RequestDTO> getReceivedRequests(@RequestParam("token") String token) throws InvalidAttributesException {
+        List<RequestDTO> requestList = userService.getReceivedRequests(token);
         return requestList;
     }
 
