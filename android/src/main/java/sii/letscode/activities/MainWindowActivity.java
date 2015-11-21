@@ -20,7 +20,9 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import sii.letscode.adapter.BookListAdapter;
+import sii.letscode.adapter.BookOwnerListAdapter;
 import sii.letscode.model.BookListViewModel;
+import sii.letscode.model.BookOwnerListViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,6 +50,10 @@ public class MainWindowActivity extends Activity {
     BookListAdapter bookListAdapter;
     ArrayList<BookListViewModel> bookList;
     ViewFlipper vf;
+
+    ListView bookOwnerListView;
+    BookOwnerListAdapter bookOwnerListAdapter;
+    ArrayList<BookOwnerListViewModel> bookOwnerList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,11 +109,24 @@ public class MainWindowActivity extends Activity {
             }
         });
 
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setContentView(R.layout.main_window_profile);
+
+                bookOwnerListView = (ListView) findViewById(R.id.bookOwnerListView);
+                bookOwnerList = new ArrayList<BookOwnerListViewModel>();
+                bookOwnerListAdapter = new BookOwnerListAdapter(getApplicationContext(), R.layout.booklistview_item_row_owner, bookOwnerList);
+                bookOwnerListView.setAdapter(bookOwnerListAdapter);
+
+                getOwnBooks();
+            }
+        });
+
     }
 
     public void getBooks(String text) {
         String SERVER_ADDRESS = "http://10.0.2.2:8080";
-        String BOOKS = "/books";
+        String BOOKS = "/searchBooks";
         String BOOKS_QUERY = "text";
         String TOKEN = "token";
 
@@ -131,6 +150,43 @@ public class MainWindowActivity extends Activity {
                         bookListViewModel.setStreet(jsonObject.getString("city") + jsonObject.getString("street"));
                         bookListViewModel.setId(jsonObject.getInt("bookId"));
                         bookList.add(bookListViewModel);
+                    }
+                    bookListAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.e(this.getClass().getName(), "JSON ERROR: " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable throwable) {
+                Log.e(this.getClass().getName(), "JSON error: " + statusCode + " " + new String(responseBody));
+            }
+        });
+    }
+
+    public void getOwnBooks() {
+        String SERVER_ADDRESS = "http://10.0.2.2:8080";
+        String BOOKS = "/books";
+        String TOKEN = "token";
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.add(TOKEN, getToken());
+
+        client.get(SERVER_ADDRESS + BOOKS, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    JSONArray jsonArray = new JSONArray(new String(responseBody));
+                    //tytuł autor nick ulica miasto
+                    for (int i = 0; i < jsonArray.length(); ++i) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        BookOwnerListViewModel bookListViewModel = new BookOwnerListViewModel();
+                        bookListViewModel.setAuthor(jsonObject.getString("author"));
+                        bookListViewModel.setTitle(jsonObject.getString("title"));
+                        bookListViewModel.setYear(jsonObject.getString("year"));
+                        bookListViewModel.setId(jsonObject.getLong("bookId"));
+                        bookOwnerList.add(bookListViewModel);
                     }
                     bookListAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
