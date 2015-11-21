@@ -33,7 +33,7 @@ public class UserController {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(path = "/updateUser", method = RequestMethod.PUT)
+    @RequestMapping(path = "/updateUser", method = RequestMethod.POST)
     public void addUser(@RequestBody UserDTO user) throws InvalidAttributesException {
         userService.updateUser(user.getToken(), user.getPassword(), user.getNick(), user.getCity(), user.getStreet(),
                 user.getNr());
